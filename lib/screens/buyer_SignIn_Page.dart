@@ -52,7 +52,7 @@ class BuyerSignInPage extends StatelessWidget {
                         Image.asset('assets/images/google.png',
                             height: 40, width: 30),
                         Text(
-                          '      Sign up with Google',
+                          '      Sign in with Google',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 18,
