@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:plug/screens/buyer_signUp.dart';
 import 'package:plug/screens/welcome_screen.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const WelcomePage(title: 'Plug'),
+      home: const BuyerSignUpPage(
+          // title: 'Plug',
+          ),
     );
   }
 }

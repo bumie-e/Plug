@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plug/components/constants.dart';
+import 'package:plug/components/widgets.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, required this.title}) : super(key: key);
@@ -67,33 +68,23 @@ class _WelcomePageState extends State<WelcomePage> {
               children: [
                 Container(
                   height: 62,
-                  child: ElevatedButton(
+                  child: ReusableButton(
+                    title: 'Become a Vendor',
+                    color: MaterialStateProperty.all(
+                      kPrimaryColor1,
+                    ),
                     onPressed: () {},
-                    child: const Text(
-                      'Become a Vendor',
-                      style: kElevatedButtonTextStyle,
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        Color(0xff092C4C),
-                      ),
-                    ),
                   ),
                 ),
                 SizedBox(height: 16),
                 Container(
                   height: 62,
-                  child: ElevatedButton(
+                  child: ReusableButton(
+                    title: 'Make a Purchase',
+                    color: MaterialStateProperty.all(
+                      kPrimaryColor2,
+                    ),
                     onPressed: () {},
-                    child: const Text(
-                      'Make a Purchase',
-                      style: kElevatedButtonTextStyle,
-                    ),
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
-                        const Color(0xffE2B93B),
-                      ),
-                    ),
                   ),
                 ),
               ],

@@ -25,7 +25,20 @@ const kTextSytle2 = TextStyle(
   color: Color(0xff092C4C),
 );
 
+const kTextSytle3 = TextStyle(
+  fontSize: 18.0,
+  color: Color(0xffE2B93B),
+);
+
+const kSubHeading = TextStyle(
+  fontSize: 24.0,
+  fontWeight: FontWeight.w600,
+  color: Color(0xff092C4C),
+);
+
 const kElevatedButtonTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 18,
 );
+
+const kPadding = EdgeInsets.all(26.0);
