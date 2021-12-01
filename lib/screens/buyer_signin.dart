@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:plug/components/constants.dart';
+import 'package:plug/utilities/constants.dart';
 
 class BuyerSignInPage extends StatelessWidget {
-  const BuyerSignInPage({Key? key}) : super(key: key);
+
+  static const id = '/buyer_signin';
 
   @override
   Widget build(BuildContext context) {

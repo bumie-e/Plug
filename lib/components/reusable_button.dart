@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plug/components/constants.dart';
+import 'package:plug/utilities/constants.dart';
 
 class ReusableButton extends StatelessWidget {
   final String title;
@@ -16,7 +16,7 @@ class ReusableButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () => onPressed(),
       child: Text(
         title,
         style: kElevatedButtonTextStyle,
