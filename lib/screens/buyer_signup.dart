@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:plug/components/constants.dart';
-import 'package:plug/components/widgets.dart';
+import 'package:plug/utilities/constants.dart';
+import 'package:plug/components/reusable_button.dart';
 
 class BuyerSignUpPage extends StatelessWidget {
   const BuyerSignUpPage({Key? key}) : super(key: key);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:plug/components/constants.dart';
+import 'package:plug/utilities/constants.dart';
 
 class ReusableButton extends StatelessWidget {
   final String title;

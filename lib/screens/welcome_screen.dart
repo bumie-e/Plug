@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:plug/components/constants.dart';
-import 'package:plug/components/widgets.dart';
+import 'package:plug/utilities/constants.dart';
+import 'package:plug/components/reusable_button.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key, required this.title}) : super(key: key);

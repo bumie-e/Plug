@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:plug/screens/buyer_SignIn_Page.dart';
+import 'package:plug/screens/buyer_signin.dart';
 import 'package:plug/screens/buyer_signUp.dart';
 import 'package:plug/screens/welcome_screen.dart';
 
