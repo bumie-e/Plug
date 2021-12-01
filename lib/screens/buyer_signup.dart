@@ -6,7 +6,8 @@ import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 
 class BuyerSignUpPage extends StatelessWidget {
-  const BuyerSignUpPage({Key? key}) : super(key: key);
+
+  static const id = '/buyer_signup';
 
   @override
   Widget build(BuildContext context) {
