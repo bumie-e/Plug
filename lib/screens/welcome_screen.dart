@@ -3,6 +3,7 @@ import 'package:plug/screens/buyer_signin.dart';
 import 'package:plug/screens/buyer_signup.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
+import 'vendorsregisterscreen.dart';
 
 class WelcomePage extends StatefulWidget {
 
@@ -16,7 +17,9 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
+        child:
+      Padding(
         padding: const EdgeInsets.all(26.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -57,7 +60,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   kPrimaryColor1,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, BuyerSignInPage.id);
+                  Navigator.of(context).pushNamed(VendorRegisterScreen.routeName);
                 },
               ),
             ),
@@ -85,6 +88,7 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
           ],
         ),
+      ),
       ),
     );
   }
