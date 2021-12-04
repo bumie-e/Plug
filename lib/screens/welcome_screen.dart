@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:plug/screens/buyer_signin.dart';
-import 'package:plug/screens/buyer_signup.dart';
 import 'package:plug/screens/home_screen.dart';
+import 'package:plug/screens/registration_screen.dart';
+import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 
 class WelcomePage extends StatefulWidget {
-  static const id = '/';
+  static const routeName = '/';
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
@@ -41,12 +41,12 @@ class _WelcomePageState extends State<WelcomePage> {
               ),
               const SizedBox(height: 42),
               ReusableButton(
-                title: 'Register Business',
+                title: 'Create Business Account',
                 color: MaterialStateProperty.all(
                   kPrimaryColor1,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, BuyerSignInPage.id);
+                  Navigator.pushNamed(context, RegistrationPage.routeName);
                 },
               ),
               const SizedBox(height: 16),
@@ -56,7 +56,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   kPrimaryColor2,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, HomePage.id);
+                  Navigator.pushNamed(context, HomePage.routeName);
                 },
               ),
               Row(
@@ -68,7 +68,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, BuyerSignInPage.id);
+                      Navigator.pushNamed(context, SignInPage.routeName);
                     },
                     child: const Text(
                       'Sign in',

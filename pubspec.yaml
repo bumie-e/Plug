@@ -11,6 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_time_picker_spinner: ^2.0.0
+  intl: ^0.17.0
 
 
   cupertino_icons: ^1.0.2
@@ -40,6 +42,6 @@ flutter:
     - assets/icons/
 
   fonts:
-    - family: Quicksand
+    - family: Inter
       fonts:
-        - asset: assets/fonts/Quicksand-Regular.ttf
+        - asset: assets/fonts/Inter-Bold.ttf

@@ -1,14 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:plug/screens/buyer_signin.dart';
-import 'package:plug/screens/buyer_signup.dart';
 import 'package:plug/screens/home_screen.dart';
+import 'package:plug/screens/registration_screen.dart';
+import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/constants.dart';
-import 'package:plug/screens/vendorsigninscreen.dart';
-import 'package:plug/screens/vendorsregisterscreen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,6 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Plug',
       theme: ThemeData(
         primarySwatch: kPrimaryColorSwatch,
+        fontFamily: 'Inter',
         textTheme: const TextTheme(
           bodyText2: TextStyle(
             color: kPrimaryColor1,
@@ -32,16 +30,12 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: WelcomePage.id,
+      initialRoute: WelcomePage.routeName,
       routes: {
-        WelcomePage.id: (context) => WelcomePage(),
-        HomePage.id: (context) => HomePage(),
-        BuyerSignInPage.id: (context) => BuyerSignInPage(),
-        BuyerSignUpPage.id: (context) => BuyerSignUpPage(),
-        VendorSignInScreen.routeName : (context) => VendorSignInScreen(),
-        VendorRegisterScreen.routeName : (context) => VendorRegisterScreen()
-
-
+        WelcomePage.routeName: (context) => WelcomePage(),
+        HomePage.routeName: (context) => HomePage(),
+        SignInPage.routeName: (context) => SignInPage(),
+        RegistrationPage.routeName: (context) => RegistrationPage(),
       },
     );
   }

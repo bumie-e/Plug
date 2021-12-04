@@ -7,7 +7,7 @@ import 'package:plug/components/section_header.dart';
 
 class HomePage extends StatefulWidget {
 
-  static const id = '/home';
+  static const routeName = '/home';
 
   @override
   _HomePageState createState() => _HomePageState();
