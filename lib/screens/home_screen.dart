@@ -18,6 +18,7 @@ enum Category { food, shoes, hostels, others }
 class _HomePageState extends State<HomePage> {
   Category selectedCategory = Category.food;
   List<String> categories = ['Food', 'Shoes', 'Hostels', 'Others'];
+  List<String> images = ['pizza.png', 'shoes.png', 'hostels.png', 'others.png'];
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +53,7 @@ class _HomePageState extends State<HomePage> {
                             text: categories[index],
                             isSelected: index == selectedCategory.index,
                             // Same image for now
-                            imageLocation: 'assets/images/pizza.png',
+                            imageLocation: kImagesRoot + images[index],
                             width: 95,
                             height: 100,
                           ),
