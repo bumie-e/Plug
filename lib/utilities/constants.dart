@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 const kPrimaryColor1 = Color(0xff092C4C);
 const kPrimaryColor2 = Color(0xffE2B93B);
 
+const kImagesRoot = 'assets/images/';
+
 const kHeadingTextyStyle1 = TextStyle(
   fontSize: 30,
 );

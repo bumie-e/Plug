@@ -1,17 +1,19 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:plug/screens/buyer_signin.dart';
-import 'package:plug/screens/buyer_signup.dart';
 import 'package:plug/screens/home_screen.dart';
+import 'package:plug/screens/registration_screen.dart';
+import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/constants.dart';
+<<<<<<< HEAD
 import 'package:plug/screens/vendorsigninscreen.dart';
 import 'package:plug/screens/vendorsregisterscreen.dart';
 import 'package:plug/screens/reset_password.dart';
 import 'package:plug/screens/new_Password.dart';
 import './screens/verify-email.dart';
+=======
+>>>>>>> 26c9ddd37d7ba9b3a202e8129813067895e53698
 
 void main() {
   runApp(const MyApp());
@@ -28,6 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'Plug',
       theme: ThemeData(
         primarySwatch: kPrimaryColorSwatch,
+        fontFamily: 'Inter',
         textTheme: const TextTheme(
           bodyText2: TextStyle(
             color: kPrimaryColor1,
@@ -35,8 +38,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: WelcomePage.id,
+      initialRoute: WelcomePage.routeName,
       routes: {
+<<<<<<< HEAD
         WelcomePage.id: (context) => WelcomePage(),
         HomePage.id: (context) => HomePage(),
         BuyerSignInPage.id: (context) => BuyerSignInPage(),
@@ -47,6 +51,12 @@ class MyApp extends StatelessWidget {
         NewPassWord.id : (context) => NewPassWord(),
         VerifyEmail.id: (context) => VerifyEmail()
 
+=======
+        WelcomePage.routeName: (context) => WelcomePage(),
+        HomePage.routeName: (context) => HomePage(),
+        SignInPage.routeName: (context) => SignInPage(),
+        RegistrationPage.routeName: (context) => RegistrationPage(),
+>>>>>>> 26c9ddd37d7ba9b3a202e8129813067895e53698
       },
     );
   }

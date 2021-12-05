@@ -15,14 +15,18 @@ class ReusableButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => onPressed(),
-      child: Text(
-        title,
-        style: kElevatedButtonTextStyle,
-      ),
-      style: ButtonStyle(
-        backgroundColor: color,
+    return SizedBox(
+      width: double.infinity,
+      height: 62,
+      child: ElevatedButton(
+        onPressed: () => onPressed(),
+        child: Text(
+          title,
+          style: kElevatedButtonTextStyle,
+        ),
+        style: ButtonStyle(
+          backgroundColor: color,
+        ),
       ),
     );
   }

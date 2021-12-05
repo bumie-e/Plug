@@ -10,21 +10,9 @@ class SectionHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: const TextStyle(fontSize: 20),
-          ),
-          const Text(
-            'See All',
-            style: TextStyle(
-              fontSize: 16,
-              color: kPrimaryColor2,
-            ),
-          ),
-        ],
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 20),
       ),
     );
   }
