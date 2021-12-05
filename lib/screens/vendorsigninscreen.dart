@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:plug/screens/reset_password.dart';
 
 import '../components/reusable.dart';
 
@@ -9,22 +10,32 @@ class VendorSignInScreen extends StatefulWidget {
 }
 
 class _VendorSignInScreenState extends State<VendorSignInScreen> {
-  final _formFieldStyle = Reusable.bottomPageWidgetStyle(
-      Color(0xFF092C4C), 'Nunito', FontWeight.w400, 17);
+  final _formFieldStyle = Reusable.bottomPageWidgetStyle(Color(0xFF092C4C), 'Nunito', FontWeight.w400, 17);
+  
   final _form = GlobalKey<FormState>();
 
   bool _passwordVisible = false;
 
   String _password = '';
+  
   String _email = '';
+
+  List savedData =[];
 
   void saveForm() {
     if (_form.currentState!.validate()) {
       _form.currentState!.save();
-      final savedData = {_email, _password};
+      savedData =[_password,_email];
       print(savedData);
     }
   }
+  void saveMail(value){
+    _email = value;
+  }
+  void savePassword(value){
+    _password = value;
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +43,7 @@ class _VendorSignInScreenState extends State<VendorSignInScreen> {
         appBar: Reusable.appBar(context),
         body: SingleChildScrollView(
           child: Column(children: [
-            Container(
-              alignment: Alignment.bottomLeft,
-              padding: const EdgeInsets.only(left: 19),
-              child: Text(
-                'Welcome back!',
-                style: Reusable.bottomPageWidgetStyle(
-                    const Color(0xFF092c4c), 'Inter', FontWeight.w600, 24),
-              ),
-            ),
+            Reusable.screenHeader('Welcome back!'),
             SizedBox(height: 42),
             Container(
               alignment: Alignment.center,
@@ -59,27 +62,27 @@ class _VendorSignInScreenState extends State<VendorSignInScreen> {
                     children: <Widget>[
                       Text('Business email',
                           style: Reusable.bottomPageWidgetStyle(
-                              Color(0xFF092c4c),
+                              const Color(0xFF092c4c),
                               'Nunito',
                               FontWeight.w400,
                               16)),
                       SizedBox(height: 8),
+                      
                       Reusable.container(
                         TextFormField(
                             style: _formFieldStyle,
-                            validator: (value) =>
-                                Reusable.emailValidationCheck(value!),
-                            decoration:
-                                InputDecoration(border: InputBorder.none),
+                            validator: (value) =>Reusable.emailValidationCheck(value!),
+                            decoration:InputDecoration(border: InputBorder.none),
                             keyboardType: TextInputType.emailAddress,
-                            onSaved: (value) => Reusable.saved(value!, _email)),
+                            onSaved: (value) => saveMail(value)),
                       ),
                       SizedBox(height: 20),
+                      
                       Text(
                         'Password',
-                        style: Reusable.bottomPageWidgetStyle(
-                            Color(0xFF092c4c), 'Nunito', FontWeight.w400, 16),
+                        style: Reusable.bottomPageWidgetStyle(Color(0xFF092c4c), 'Nunito', FontWeight.w400, 16),
                       ),
+
                       SizedBox(height: 8),
                       Reusable.container(
                         Row(
@@ -88,13 +91,10 @@ class _VendorSignInScreenState extends State<VendorSignInScreen> {
                                 child: TextFormField(
                               obscureText: !_passwordVisible,
                               style: _formFieldStyle,
-                              decoration:
-                                  InputDecoration(border: InputBorder.none),
-                              validator: (value) =>
-                                  Reusable.passwordValidationCheck(value!),
-                              onSaved: (value) =>
-                                  Reusable.saved(value!, _password),
-                            )),
+                              decoration:InputDecoration(border: InputBorder.none),
+                              validator: (value) =>Reusable.passwordValidationCheck(value!),
+                              onSaved: (value) =>savePassword(value),)),
+                            
                             IconButton(
                                 onPressed: () {
                                   setState(() {
@@ -125,10 +125,11 @@ class _VendorSignInScreenState extends State<VendorSignInScreen> {
             Container(
               alignment: Alignment.center,
               child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(ForgotPassword.id);
+                  },
                   child: Text('Forgot Password?',
-                      style: Reusable.bottomPageWidgetStyle(
-                          Color(0xFFE2B93B), 'inter', FontWeight.w500, 18))),
+                      style: Reusable.bottomPageWidgetStyle(Color(0xFFE2B93B), 'inter', FontWeight.w500, 18))),
             )
           ]),
         ));

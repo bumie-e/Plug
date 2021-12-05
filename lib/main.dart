@@ -9,6 +9,9 @@ import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/screens/vendorsigninscreen.dart';
 import 'package:plug/screens/vendorsregisterscreen.dart';
+import 'package:plug/screens/reset_password.dart';
+import 'package:plug/screens/new_Password.dart';
+import './screens/verify-email.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,8 +42,10 @@ class MyApp extends StatelessWidget {
         BuyerSignInPage.id: (context) => BuyerSignInPage(),
         BuyerSignUpPage.id: (context) => BuyerSignUpPage(),
         VendorSignInScreen.routeName : (context) => VendorSignInScreen(),
-        VendorRegisterScreen.routeName : (context) => VendorRegisterScreen()
-
+        VendorRegisterScreen.routeName : (context) => VendorRegisterScreen(),
+        ForgotPassword.id : (context) => ForgotPassword(),
+        NewPassWord.id : (context) => NewPassWord(),
+        VerifyEmail.id: (context) => VerifyEmail()
 
       },
     );

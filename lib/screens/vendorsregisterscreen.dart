@@ -30,13 +30,34 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
    String _address='';
    String _desc='';
 
+   List savedData =[];
+
+   void saveName(value){
+     _businessName = value;
+   }
+   void saveMail(value){
+     _email = value;
+   }
+   void savePassword(value){
+     _password = value;
+   }
+   void saveNum(value){
+     _number = value;
+   }
+   void saveAddress(value){
+     _address = value;
+   }
+   void saveDesc(value){
+     _desc = value;
+   }
+
   void saveForm(){
     _form.currentState!.validate();
     if(_form.currentState!.validate()){
       _form.currentState!.save();
-      final savedData = {_businessName,_email,_password,_number,_address,_desc,_openingDateTime,_closingDateTime}; //A set of the data entered by the user
+      savedData = [_businessName,_email,_password,_number,_address,_desc,DateFormat.Hm().format(_openingDateTime),DateFormat.Hm().format(_closingDateTime)]; //A set of the data entered by the user
       print(savedData);
-    }return;
+    }
   }
 
 
@@ -116,7 +137,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                         decoration: InputDecoration(border: InputBorder.none),
                         keyboardType: TextInputType.name,
                         validator: (value) =>Reusable.businessValidationCheck(value!),
-                        onSaved: (value)=> Reusable.saved(value!, _businessName),
+                        onSaved: (value)=> saveName(value),
                       ),
                     ),
                     
@@ -129,9 +150,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                         style: _validationStyle,
                         decoration: InputDecoration(border: InputBorder.none),
                         keyboardType: TextInputType.emailAddress,
-                        validator: (value) =>
-                            Reusable.emailValidationCheck(value!),
-                        onSaved: (value) => Reusable.saved(value!, _email),
+                        validator: (value) =>Reusable.emailValidationCheck(value!),
+                        onSaved: (value) => saveMail(value),
                       ),
                     ),
                     
@@ -147,9 +167,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                                 obscureText: !_passwordVisible,
                                 style: _validationStyle,
                             decoration: InputDecoration(border: InputBorder.none),
-                            validator: (value) =>
-                                Reusable.passwordValidationCheck(value!),
-                            onSaved: (value) => Reusable.saved(value!, _password),
+                            validator: (value) =>Reusable.passwordValidationCheck(value!),
+                            onSaved: (value) => savePassword(value),
                           )),
                           IconButton(
                               onPressed: () {
@@ -183,7 +202,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                               decoration:InputDecoration(border: InputBorder.none),
                               keyboardType: TextInputType.number,
                               validator: (value) =>Reusable.whatsAppValidationCheck(value!),
-                              onSaved: (value) => Reusable.saved(value!, _number),
+                              onSaved: (value) => saveNum(value),
                             ),
                           ),
                         ],
@@ -201,7 +220,7 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                         style: _validationStyle,
                         keyboardType: TextInputType.streetAddress,
                         validator: (value) => Reusable.addressValidator(value!),
-                        onSaved: (value) => Reusable.saved(value!, _address),
+                        onSaved: (value) => saveAddress(value),
                       ),
                     ),
                     
@@ -258,10 +277,8 @@ class _VendorRegisterScreenState extends State<VendorRegisterScreen> {
                       TextFormField(
                         style: _validationStyle,
                         decoration: InputDecoration(border: InputBorder.none),
-                        maxLines: 3,
-                        validator: (value) =>
-                            Reusable.descriptionValidator(value!),
-                        onSaved: (value)=> Reusable.saved(value!, _desc),
+                        validator: (value) =>Reusable.descriptionValidator(value!),
+                        onSaved: (value)=> saveDesc(value),
                       ),
                     ),
                     Reusable.infoText('Description should not be more than 500 words'),
