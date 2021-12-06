@@ -6,6 +6,9 @@ import 'package:plug/screens/registration_screen.dart';
 import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/constants.dart';
+import 'package:plug/screens/reset_password.dart';
+import 'package:plug/screens/new_Password.dart';
+import './screens/verify-email.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +39,9 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => HomePage(),
         SignInPage.routeName: (context) => SignInPage(),
         RegistrationPage.routeName: (context) => RegistrationPage(),
+        ForgotPassword.routeName : (context) => ForgotPassword(),
+        NewPassWord.id : (context) => NewPassWord(),
+        VerifyEmail.id: (context) => VerifyEmail()
       },
     );
   }
