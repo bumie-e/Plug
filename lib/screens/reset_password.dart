@@ -5,7 +5,7 @@ import 'verify-email.dart';
 
 class ForgotPassword extends StatelessWidget {
 
-  static const id = '/forgot-password';
+  static const routeName = '/forgot-password';
   final _form = GlobalKey<FormState>();
 
   String _businessName = '';
