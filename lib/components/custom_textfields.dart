@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
 class PrimaryTextField extends StatelessWidget {
-
   final String labelText;
   final Function onChanged;
   final TextInputType? keyboardType;
 
-  const PrimaryTextField({
-    required this.labelText,
-    required this.onChanged,
-    this.keyboardType
-  });
+  const PrimaryTextField(
+      {required this.labelText, required this.onChanged, this.keyboardType});
 
   @override
   Widget build(BuildContext context) {
@@ -33,8 +29,12 @@ class PrimaryTextField extends StatelessWidget {
 
 class MultiLineTextField extends StatelessWidget {
   final Function onChanged;
+  final String labelText;
 
-  MultiLineTextField({required this.onChanged});
+  const MultiLineTextField({
+    required this.onChanged,
+    required this.labelText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class MultiLineTextField extends StatelessWidget {
       maxLines: 5,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),
-        labelText: 'Business description',
+        labelText: 'labelText',
       ),
       onChanged: (value) => onChanged(value),
     );
@@ -61,7 +61,6 @@ class PasswordTextField extends StatefulWidget {
 }
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
-
   bool _hidePassword = true;
 
   @override
@@ -90,7 +89,6 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
 }
 
 class TimePickerTextField extends StatefulWidget {
-
   final String text;
   final Function onTimePicked;
 
@@ -101,7 +99,6 @@ class TimePickerTextField extends StatefulWidget {
 }
 
 class _TimePickerTextFieldState extends State<TimePickerTextField> {
-
   final _myController = TextEditingController();
   int _hour = 0;
   int _minute = 0;
@@ -115,7 +112,7 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
     );
 
     // when the picker is dismissed but the user has initially picked a time
-    if(_myController.text.isNotEmpty && pickedTime == null) {
+    if (_myController.text.isNotEmpty && pickedTime == null) {
       return;
     }
 

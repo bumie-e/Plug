@@ -36,23 +36,27 @@ class _RegistrationFormState extends State<RegistrationForm> {
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                height: 150,
-                width: 150,
-                decoration: kBoxDecoration.copyWith(color: kPrimaryColor1),
-                child: _businessLogo ?? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                    ),
-                    Text('Business Logo', style: TextStyle(color: Colors.white,),),
-                  ],
-                )
-              ),
+                  height: 150,
+                  width: 150,
+                  decoration: kBoxDecoration.copyWith(color: kPrimaryColor1),
+                  child: _businessLogo ??
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Business Logo',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )),
             ),
           ),
-
           PrimaryTextField(
             labelText: 'Business name',
             onChanged: (value) => _businessName = value,
@@ -102,7 +106,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: MultiLineTextField(onChanged: (value) => _desc = value),
+            child: MultiLineTextField(
+                labelText: 'Bussiness Description',
+                onChanged: (value) => _desc = value),
           ),
           ElevatedButton(
             onPressed: () {
@@ -120,7 +126,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   void pickImage() async {
     var image = await LocalImage(ImageSourceType.gallery).pickImage();
     setState(() {
-      if(image != null) {
+      if (image != null) {
         _businessLogo = image;
       }
     });
