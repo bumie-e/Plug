@@ -17,9 +17,10 @@ class _WelcomePageState extends State<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(26, 26, 26 , 0),
+        padding: const EdgeInsets.fromLTRB(26, 26, 26, 0),
         child: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 36),
               Text.rich(

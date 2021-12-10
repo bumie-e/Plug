@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: WelcomePage.routeName,
+      initialRoute: ProdDetailPage.routeName,
       routes: {
         WelcomePage.routeName: (context) => WelcomePage(),
         HomePage.routeName: (context) => HomePage(),

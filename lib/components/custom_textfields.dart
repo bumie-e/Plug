@@ -42,9 +42,9 @@ class MultiLineTextField extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       minLines: 1,
       maxLines: 5,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: OutlineInputBorder(),
-        labelText: 'labelText',
+        labelText: labelText,
       ),
       onChanged: (value) => onChanged(value),
     );
