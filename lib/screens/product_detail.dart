@@ -3,7 +3,6 @@ import 'package:plug/components/custom_textfields.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 import 'package:plug/utilities/image_picker.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ProdDetailPage extends StatefulWidget {
   static const routeName = '/productDetail';
@@ -74,9 +73,8 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
                                   ),
                                   Text(
                                     'Product Image',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
+                                    style: kTextSytle2.copyWith(
+                                        color: Colors.white),
                                   ),
                                 ],
                               )),
@@ -157,6 +155,7 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
                   ),
                   onPressed: () {
                     // Navigator.pushNamed(context, HomePage.routeName);
+                    Navigator.pop(context);
                   },
                 ),
               ],

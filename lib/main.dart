@@ -10,6 +10,7 @@ import 'package:plug/screens/reset_password.dart';
 import 'package:plug/screens/new_Password.dart';
 import 'package:plug/screens/product_detail.dart';
 import './screens/verify-email.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,15 +26,18 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Plug',
       theme: ThemeData(
-        primarySwatch: kPrimaryColorSwatch,
-        fontFamily: 'Inter',
-        textTheme: const TextTheme(
-          bodyText2: TextStyle(
-            color: kPrimaryColor1,
-            fontWeight: FontWeight.w700,
+          primarySwatch: kPrimaryColorSwatch,
+          textTheme: GoogleFonts.quicksandTextTheme(
+            Theme.of(context).textTheme,
+          )
+          // fontFamily: 'Inter',
+          // textTheme: const TextTheme(
+          //   bodyText2: TextStyle(
+          //     color: kPrimaryColor1,
+          //     fontWeight: FontWeight.w700,
+          //   ),
+          // ),
           ),
-        ),
-      ),
       initialRoute: ProdDetailPage.routeName,
       routes: {
         WelcomePage.routeName: (context) => WelcomePage(),
