@@ -57,12 +57,15 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       )),
             ),
           ),
+          const SizedBox(
+            height: 16,
+          ),
           PrimaryTextField(
             labelText: 'Business name',
             onChanged: (value) => _businessName = value,
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: PrimaryTextField(
               labelText: 'Business email',
               onChanged: (value) => _businessEmail = value,
@@ -70,11 +73,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: PasswordTextField(onChanged: (value) => _password = value),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: PrimaryTextField(
               labelText: 'WhatsApp number',
               onChanged: (value) => _number = value,
@@ -82,14 +85,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: PrimaryTextField(
               labelText: 'Address',
               onChanged: (value) => _address = value,
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: TimePickerTextField(
                 text: 'Opening hours',
                 onTimePicked: (value) {
@@ -97,7 +100,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 }),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: TimePickerTextField(
                 text: 'Closing hours',
                 onTimePicked: (value) {
@@ -105,10 +108,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 }),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 16.0),
             child: MultiLineTextField(
                 labelText: 'Bussiness Description',
                 onChanged: (value) => _desc = value),
+          ),
+          const SizedBox(
+            height: 16,
           ),
           ElevatedButton(
             onPressed: () {

@@ -25,10 +25,12 @@ class _SignInFormState extends State<SignInForm> {
             keyboardType: TextInputType.emailAddress,
           ),
           const SizedBox(
-            height: 12,
+            height: 16,
           ),
           PasswordTextField(onChanged: (value) => _password = value),
-
+          const SizedBox(
+            height: 16,
+          ),
           ElevatedButton(
             onPressed: () {
               if (_formKey.currentState!.validate()) {

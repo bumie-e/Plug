@@ -19,65 +19,68 @@ class _WelcomePageState extends State<WelcomePage> {
       body: Padding(
         padding: const EdgeInsets.fromLTRB(26, 26, 26, 0),
         child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 36),
-              Text.rich(
-                TextSpan(
-                  text: 'Welcome to ',
-                  style: TextStyle(fontSize: 30.0),
-                  children: kCustomPlugText + kExclamationPoint,
-                ),
-              ),
-              const Text(
-                'Right Business, Right Audience',
-                style: kSubHeadingTextStyle,
-              ),
-              const SizedBox(height: 20),
-              Image.asset(
-                "assets/images/first.png",
-                height: 350,
-                width: 350,
-              ),
-              const SizedBox(height: 42),
-              ReusableButton(
-                title: 'Create Business Account',
-                color: MaterialStateProperty.all(
-                  kPrimaryColor1,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, RegistrationPage.routeName);
-                },
-              ),
-              const SizedBox(height: 16),
-              ReusableButton(
-                title: 'View Products',
-                color: MaterialStateProperty.all(
-                  kPrimaryColor2,
-                ),
-                onPressed: () {
-                  Navigator.pushNamed(context, HomePage.routeName);
-                },
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Already have an Account?',
-                    style: TextStyle(fontWeight: FontWeight.w400),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const SizedBox(height: 36),
+                Text.rich(
+                  TextSpan(
+                    text: 'Welcome to ',
+                    style: kHeadingTextyStyle1,
+                    children: kCustomPlugText + kExclamationPoint,
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, SignInPage.routeName);
-                    },
-                    child: const Text(
-                      'Sign in',
+                ),
+                const Text(
+                  'Right Business, Right Audience',
+                  style: kSubHeadingTextStyle,
+                ),
+                const SizedBox(height: 20),
+                Image.asset(
+                  "assets/images/first.png",
+                  height: 350,
+                  width: 350,
+                ),
+                const SizedBox(height: 42),
+                ReusableButton(
+                  title: 'Create Business Account',
+                  color: MaterialStateProperty.all(
+                    kPrimaryColor1,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, RegistrationPage.routeName);
+                  },
+                ),
+                const SizedBox(height: 16),
+                ReusableButton(
+                  title: 'View Products',
+                  color: MaterialStateProperty.all(
+                    kPrimaryColor2,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, HomePage.routeName);
+                  },
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Already have an Account?',
+                      style: TextStyle(fontWeight: FontWeight.w400),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, SignInPage.routeName);
+                      },
+                      child: const Text(
+                        'Sign in',
+                        style: kTextSytle3,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

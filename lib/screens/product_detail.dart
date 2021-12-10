@@ -42,123 +42,131 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // Text(
-                //   'Add Product Details',
-                //   style: kSubHeading,
-                //   textAlign: TextAlign.left,
-                // ),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      pickImage();
-                    },
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
-                      child: Container(
-                          height: 150,
-                          width: 150,
-                          decoration:
-                              kBoxDecoration.copyWith(color: kPrimaryColor1),
-                          child: _productImage ??
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Icons.camera_alt,
-                                    color: Colors.white,
-                                  ),
-                                  Text(
-                                    'Product Image',
-                                    style: kTextSytle2.copyWith(
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              )),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Text(
+                  //   'Add Product Details',
+                  //   style: kSubHeading,
+                  //   textAlign: TextAlign.left,
+                  // ),
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        pickImage();
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: Container(
+                            height: 150,
+                            width: 150,
+                            decoration:
+                                kBoxDecoration.copyWith(color: kPrimaryColor1),
+                            child: _productImage ??
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.camera_alt,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      'Product Image',
+                                      style: kTextSytle2.copyWith(
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                )),
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 10, right: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.circular(5),
+                  SizedBox(
+                    height: 30,
                   ),
-                  child: DropdownButton(
-                    hint: const Text(
-                      'Select Category',
-                      // style: GoogleFonts.quicksand(),
+                  Container(
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 36,
-                    focusColor: kPrimaryColor1,
-                    // dropdownColor: kPrimaryColor1,
+                    child: DropdownButton(
+                      hint: const Text(
+                        'Select Category',
+                        // style: GoogleFonts.quicksand(),
+                      ),
+                      icon: Icon(Icons.arrow_drop_down),
+                      iconSize: 36,
+                      focusColor: kPrimaryColor1,
+                      // dropdownColor: kPrimaryColor1,
 
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    value: valueChosen,
-                    onChanged: (value) {
-                      setState(() {
-                        valueChosen = value as String?;
-                      });
+                      isExpanded: true,
+                      underline: SizedBox(),
+                      value: valueChosen,
+                      onChanged: (value) {
+                        setState(() {
+                          valueChosen = value as String?;
+                        });
+                      },
+                      items: category
+                          .map((valueItem) => DropdownMenuItem(
+                                value: valueItem,
+                                child: Text(valueItem),
+                              ))
+                          .toList(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  PrimaryTextField(
+                    labelText: 'Product name',
+                    onChanged: (value) => _productName = value,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  PrimaryTextField(
+                    labelText: 'Price',
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) => _price = value,
+                  ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  MultiLineTextField(
+                      labelText: 'Product Description',
+                      onChanged: (value) => _desc = value),
+                  Text(
+                    'Description should not be more than 500 words',
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Color(0xff828282),
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ReusableButton(
+                    title: 'Add Products',
+                    color: MaterialStateProperty.all(
+                      kPrimaryColor1,
+                    ),
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        print(
+                            'product Name = $_productName and description = $_desc');
+                        Navigator.pop(context);
+                      }
+                      // Navigator.pushNamed(context, HomePage.routeName);
                     },
-                    items: category
-                        .map((valueItem) => DropdownMenuItem(
-                              value: valueItem,
-                              child: Text(valueItem),
-                            ))
-                        .toList(),
                   ),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                PrimaryTextField(
-                  labelText: 'Product name',
-                  onChanged: (value) => _productName = value,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                PrimaryTextField(
-                  labelText: 'Price',
-                  keyboardType: TextInputType.number,
-                  onChanged: (value) => _price = value,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                MultiLineTextField(
-                    labelText: 'Product Description',
-                    onChanged: (value) => _desc = value),
-                Text(
-                  'Description should not be more than 500 words',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                ReusableButton(
-                  title: 'Add Products',
-                  color: MaterialStateProperty.all(
-                    kPrimaryColor1,
-                  ),
-                  onPressed: () {
-                    // Navigator.pushNamed(context, HomePage.routeName);
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ));
