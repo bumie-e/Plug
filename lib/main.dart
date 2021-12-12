@@ -1,16 +1,21 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/screens/home_screen.dart';
 import 'package:plug/screens/registration_screen.dart';
 import 'package:plug/screens/sign_in_screen.dart';
+import 'package:plug/screens/vendor_screen.dart';
 import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/screens/reset_password.dart';
 import 'package:plug/screens/new_Password.dart';
 import './screens/verify-email.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -33,7 +38,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: WelcomePage.routeName,
+      home: appropriateHome(),
       routes: {
         WelcomePage.routeName: (context) => WelcomePage(),
         HomePage.routeName: (context) => HomePage(),
@@ -41,8 +46,17 @@ class MyApp extends StatelessWidget {
         RegistrationPage.routeName: (context) => RegistrationPage(),
         ForgotPassword.routeName : (context) => ForgotPassword(),
         NewPassWord.id : (context) => NewPassWord(),
-        VerifyEmail.id: (context) => VerifyEmail()
+        VerifyEmail.id: (context) => VerifyEmail(),
       },
     );
+  }
+
+  Widget appropriateHome() {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return WelcomePage();
+    } else {
+      return VendorPage(id: currentUser.uid);
+    }
   }
 }
