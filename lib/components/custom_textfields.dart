@@ -1,14 +1,15 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class PrimaryTextField extends StatelessWidget {
 
   final String labelText;
-  final Function onChanged;
+  final Function onSaved;
   final TextInputType? keyboardType;
 
   const PrimaryTextField({
     required this.labelText,
-    required this.onChanged,
+    required this.onSaved,
     this.keyboardType
   });
 
@@ -17,13 +18,21 @@ class PrimaryTextField extends StatelessWidget {
     return TextFormField(
       keyboardType: keyboardType,
       decoration: InputDecoration(
-        border: OutlineInputBorder(),
+        border: const OutlineInputBorder(),
         labelText: labelText,
       ),
-      onChanged: (value) => onChanged(value),
+      onSaved: (value) => onSaved(value),
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter the ${labelText.toLowerCase()}';
+        } else if(keyboardType == TextInputType.emailAddress) {
+          if(!EmailValidator.validate(value)) {
+            return 'Please enter a valid email address';
+          }
+        } else if(keyboardType == TextInputType.number) {
+          if(value.length != 11) {
+            return 'An 11 digit number is required';
+          }
         }
         return null;
       },
@@ -32,9 +41,9 @@ class PrimaryTextField extends StatelessWidget {
 }
 
 class MultiLineTextField extends StatelessWidget {
-  final Function onChanged;
+  final Function onSaved;
 
-  MultiLineTextField({required this.onChanged});
+  MultiLineTextField({required this.onSaved});
 
   @override
   Widget build(BuildContext context) {
@@ -46,15 +55,20 @@ class MultiLineTextField extends StatelessWidget {
         border: OutlineInputBorder(),
         labelText: 'Business description',
       ),
-      onChanged: (value) => onChanged(value),
+      onSaved: (value) => onSaved(value),
+      validator: (value) {
+        if(value == null || value.isEmpty) {
+          return 'Enter your business description';
+        }
+      },
     );
   }
 }
 
 class PasswordTextField extends StatefulWidget {
-  final Function onChanged;
+  final Function onSaved;
 
-  PasswordTextField({required this.onChanged});
+  PasswordTextField({required this.onSaved});
 
   @override
   _PasswordTextFieldState createState() => _PasswordTextFieldState();
@@ -70,7 +84,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       obscureText: _hidePassword,
       enableSuggestions: false,
       autocorrect: false,
-      onChanged: (value) => widget.onChanged(value),
+      onSaved: (value) => widget.onSaved(value),
       decoration: InputDecoration(
         suffixIcon: IconButton(
           icon: Icon(_hidePassword ? Icons.visibility_off : Icons.visibility),
@@ -82,6 +96,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter your password';
+        } else if(value.length < 8) {
+          return 'Password should be at least 8 characters';
         }
         return null;
       },
@@ -138,6 +154,12 @@ class _TimePickerTextFieldState extends State<TimePickerTextField> {
         suffixIcon: Icon(Icons.access_time),
       ),
       onTap: () => pickTime(context),
+      validator: (value) {
+        if(value == null || value.isEmpty) {
+          return 'Select your ${widget.text.toLowerCase()}';
+        }
+        return null;
+      },
     );
   }
 
