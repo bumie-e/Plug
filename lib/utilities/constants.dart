@@ -21,6 +21,10 @@ const kSubHeadingTextStyle = TextStyle(
   color: kPrimaryColor1,
 );
 
+const kWhiteTextStyle = TextStyle(
+  color: Colors.white,
+);
+
 const kTextSytle2 = TextStyle(
   fontSize: 18.0,
   color: Color(0xff092C4C),

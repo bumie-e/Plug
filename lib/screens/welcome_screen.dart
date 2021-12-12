@@ -6,7 +6,7 @@ import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 
 class WelcomePage extends StatefulWidget {
-  static const routeName = '/';
+  static const routeName = '/welcome';
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();
