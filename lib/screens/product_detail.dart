@@ -4,16 +4,16 @@ import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 import 'package:plug/utilities/image_picker.dart';
 
-class ProdDetailPage extends StatefulWidget {
-  static const routeName = '/productDetail';
+class ProductDetailsPage extends StatefulWidget {
+  static const routeName = '/productDetails';
 
-  const ProdDetailPage({Key? key}) : super(key: key);
+  const ProductDetailsPage({Key? key}) : super(key: key);
 
   @override
-  _ProdDetailPageState createState() => _ProdDetailPageState();
+  _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
 
-class _ProdDetailPageState extends State<ProdDetailPage> {
+class _ProductDetailsPageState extends State<ProductDetailsPage> {
   final _formKey = GlobalKey<FormState>();
   Image? _productImage;
   String _productName = '';
@@ -26,7 +26,7 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
     var image = await LocalImage(ImageSourceType.gallery).pickImage();
     setState(() {
       if (image != null) {
-        _productImage = image;
+         _productImage = Image.file(image);
       }
     });
   }
@@ -48,11 +48,6 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // Text(
-                  //   'Add Product Details',
-                  //   style: kSubHeading,
-                  //   textAlign: TextAlign.left,
-                  // ),
                   Center(
                     child: GestureDetector(
                       onTap: () {
@@ -123,7 +118,7 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
                   ),
                   PrimaryTextField(
                     labelText: 'Product name',
-                    onChanged: (value) => _productName = value,
+                    onSaved: (value) => _productName = value,
                   ),
                   SizedBox(
                     height: 30,
@@ -131,14 +126,14 @@ class _ProdDetailPageState extends State<ProdDetailPage> {
                   PrimaryTextField(
                     labelText: 'Price',
                     keyboardType: TextInputType.number,
-                    onChanged: (value) => _price = value,
+                    onSaved: (value) => _price = value,
                   ),
                   SizedBox(
                     height: 30,
                   ),
                   MultiLineTextField(
                       labelText: 'Product Description',
-                      onChanged: (value) => _desc = value),
+                      onSaved: (value) => _desc = value),
                   Text(
                     'Description should not be more than 500 words',
                     textAlign: TextAlign.left,

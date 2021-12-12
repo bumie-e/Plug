@@ -17,7 +17,7 @@ class RegistrationForm extends StatefulWidget {
   _RegistrationFormState createState() => _RegistrationFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
+class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
   final _formKey = GlobalKey<FormState>();
   File? _businessLogo;
   String _businessName = '';
@@ -45,21 +45,30 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
                 height: 150,
                 width: 150,
                 decoration: kBoxDecoration.copyWith(color: kPrimaryColor1),
-                child: _businessLogo == null ? Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
-                      Icons.camera_alt,
-                      color: Colors.white,
-                    ),
-                    Text('Business Logo', style: TextStyle(color: Colors.white,),),
-                  ],
-                ) : showImage(),
+                child: _businessLogo == null
+                    ? Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: const [
+                          Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                          ),
+                          Text(
+                            'Business Logo',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                    : showImage(),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0,),
+            padding: const EdgeInsets.only(
+              top: 12.0,
+            ),
             child: PrimaryTextField(
               labelText: 'Business name',
               onSaved: (value) => _businessName = value,
@@ -110,13 +119,16 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: MultiLineTextField(onSaved: (value) => _desc = value),
+            child: MultiLineTextField(
+              labelText: 'Business Description',
+              onSaved: (value) => _desc = value,
+            ),
           ),
           ElevatedButton(
             onPressed: () async {
               final form = _formKey.currentState!;
 
-              if(form.validate()) {
+              if (form.validate()) {
                 form.save();
                 createAccount(context);
               }
@@ -133,9 +145,7 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-          email: _businessEmail,
-          password: _password
-      );
+              email: _businessEmail, password: _password);
       onRegistrationSuccess(context, userCredential.user);
     } on FirebaseAuthException catch (e) {
       dismissLoader(context);
@@ -144,9 +154,8 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
       }
     } catch (e) {
       dismissLoader(context);
-      showRegistrationErrorAlert(context,
-          'Registration failed. Please check and try again'
-      );
+      showRegistrationErrorAlert(
+          context, 'Registration failed. Please check and try again');
     }
   }
 
@@ -163,14 +172,11 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
 
   void showRegistrationErrorAlert(BuildContext context, String errorMessage) {
     showErrorAlert(context,
-        errorTitle: 'Error occurred',
-        errorMessage: errorMessage
-    );
+        errorTitle: 'Error occurred', errorMessage: errorMessage);
   }
 
   void addVendorDetails(BuildContext context, String id, String logoUrl) {
-    DocumentReference vendors = FirebaseFirestore.instance
-        .doc('vendors/$id');
+    DocumentReference vendors = FirebaseFirestore.instance.doc('vendors/$id');
     vendors.set({
       'id': id,
       'logoUrl': logoUrl,
@@ -181,38 +187,38 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
       'openingHours': _openingHours,
       'closingHours': _closingHours,
       'description': _desc
-    })
-        .then((value) {
-          dismissLoader(context);
-          // Pops all and pushes the VendorPage
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) {
-              return VendorPage(id: id,);
-            }),
-            (route) => false,
+    }).then((value) {
+      dismissLoader(context);
+      // Pops all and pushes the VendorPage
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return VendorPage(
+            id: id,
           );
-    })
-        .catchError((error) {
-          dismissLoader(context);
-          showRegistrationErrorAlert(context, 'Try again');
+        }),
+        (route) => false,
+      );
+    }).catchError((error) {
+      dismissLoader(context);
+      showRegistrationErrorAlert(context, 'Try again');
     });
   }
 
   void pickImage() async {
-    var imageFile = await LocalImage(ImageSourceType.gallery).pickImageFile();
+    var imageFile = await LocalImage(ImageSourceType.gallery).pickImage();
     setState(() {
-      if(imageFile != null) {
+      if (imageFile != null) {
         _businessLogo = imageFile;
       }
     });
   }
 
   Image showImage() => Image.file(
-    _businessLogo!,
-    width: 180.0,
-    height: 180.0,
-  );
+        _businessLogo!,
+        width: 180.0,
+        height: 180.0,
+      );
 
   Future<String> uploadLogo(String id) async {
     final Reference ref = FirebaseStorage.instance.ref('logo/$id.jpg');

@@ -11,7 +11,7 @@ class LocalImage {
 
   LocalImage(this._type);
 
-  Future<File?> pickImageFile() async {
+  Future<File?> pickImage() async {
     var imagePicker = ImagePicker();
 
     var source = _type == ImageSourceType.camera

@@ -41,9 +41,10 @@ class PrimaryTextField extends StatelessWidget {
 }
 
 class MultiLineTextField extends StatelessWidget {
+  final String labelText;
   final Function onSaved;
 
-  MultiLineTextField({required this.onSaved});
+  MultiLineTextField({required this.labelText, required this.onSaved});
 
   @override
   Widget build(BuildContext context) {
