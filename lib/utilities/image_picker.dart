@@ -11,7 +11,7 @@ class LocalImage {
 
   LocalImage(this._type);
 
-  Future<Image?> pickImage() async {
+  Future<File?> pickImageFile() async {
     var imagePicker = ImagePicker();
 
     var source = _type == ImageSourceType.camera
@@ -26,11 +26,6 @@ class LocalImage {
     var imagePath = image?.path;
 
     return imagePath == null ? null
-        : Image.file(
-      File(imagePath),
-      width: 150.0,
-      height: 150.0,
-      fit: BoxFit.fill,
-    );
+        : File(imagePath);
   }
 }
