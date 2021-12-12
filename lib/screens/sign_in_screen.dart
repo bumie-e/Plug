@@ -18,16 +18,18 @@ class _SignInPageState extends State<SignInPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Image.asset(
-              "assets/images/second.png",
-              height: 350,
-              width: 350,
-            ),
-            SignInForm(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Image.asset(
+                "assets/images/second.png",
+                height: 350,
+                width: 350,
+              ),
+              SignInForm(),
+            ],
+          ),
         ),
       ),
     );
