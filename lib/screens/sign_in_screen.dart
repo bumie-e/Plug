@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/forms/sign_in_form.dart';
-import 'package:plug/utilities/constants.dart';
 
 class SignInPage extends StatefulWidget {
   static const routeName = '/sign_in';

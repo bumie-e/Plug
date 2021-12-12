@@ -1,5 +1,12 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/components/custom_textfields.dart';
+import 'package:plug/utilities/alert_mixins.dart';
+import 'package:plug/screens/vendor_screen.dart';
 import 'package:plug/utilities/image_picker.dart';
 import 'package:plug/utilities/constants.dart';
 
@@ -10,14 +17,13 @@ class RegistrationForm extends StatefulWidget {
   _RegistrationFormState createState() => _RegistrationFormState();
 }
 
-class _RegistrationFormState extends State<RegistrationForm> {
+class _RegistrationFormState extends State<RegistrationForm> with AlertMixins{
   final _formKey = GlobalKey<FormState>();
-
-  Image? _businessLogo;
+  File? _businessLogo;
   String _businessName = '';
   String _businessEmail = '';
   String _password = '';
-  String _number = '';
+  String _whatsappNumber = '';
   String _address = '';
   String _openingHours = '';
   String _closingHours = '';
@@ -39,41 +45,43 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 height: 150,
                 width: 150,
                 decoration: kBoxDecoration.copyWith(color: kPrimaryColor1),
-                child: _businessLogo ?? Column(
+                child: _businessLogo == null ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: const [
                     Icon(
                       Icons.camera_alt,
                       color: Colors.white,
                     ),
                     Text('Business Logo', style: TextStyle(color: Colors.white,),),
                   ],
-                )
+                ) : showImage(),
               ),
             ),
           ),
-
-          PrimaryTextField(
-            labelText: 'Business name',
-            onChanged: (value) => _businessName = value,
+          Padding(
+            padding: const EdgeInsets.only(top: 12.0,),
+            child: PrimaryTextField(
+              labelText: 'Business name',
+              onSaved: (value) => _businessName = value,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PrimaryTextField(
               labelText: 'Business email',
-              onChanged: (value) => _businessEmail = value,
+              onSaved: (value) => _businessEmail = value,
               keyboardType: TextInputType.emailAddress,
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: PasswordTextField(onChanged: (value) => _password = value),
+            child: PasswordTextField(onSaved: (value) => _password = value),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PrimaryTextField(
               labelText: 'WhatsApp number',
-              onChanged: (value) => _number = value,
+              onSaved: (value) => _whatsappNumber = value,
               keyboardType: TextInputType.number,
             ),
           ),
@@ -81,7 +89,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
             padding: const EdgeInsets.only(top: 12.0),
             child: PrimaryTextField(
               labelText: 'Address',
-              onChanged: (value) => _address = value,
+              onSaved: (value) => _address = value,
             ),
           ),
           Padding(
@@ -102,12 +110,15 @@ class _RegistrationFormState extends State<RegistrationForm> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
-            child: MultiLineTextField(onChanged: (value) => _desc = value),
+            child: MultiLineTextField(onSaved: (value) => _desc = value),
           ),
           ElevatedButton(
-            onPressed: () {
-              if (_formKey.currentState!.validate()) {
-                print(_openingHours);
+            onPressed: () async {
+              final form = _formKey.currentState!;
+
+              if(form.validate()) {
+                form.save();
+                createAccount(context);
               }
             },
             child: const Text('REGISTER'),
@@ -117,12 +128,95 @@ class _RegistrationFormState extends State<RegistrationForm> {
     );
   }
 
+  void createAccount(BuildContext context) async {
+    showLoadingAlert(context, text: 'Creating account');
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+          email: _businessEmail,
+          password: _password
+      );
+      onRegistrationSuccess(context, userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      dismissLoader(context);
+      if (e.code == 'email-already-in-use') {
+        showRegistrationErrorAlert(context, 'Email already exists');
+      }
+    } catch (e) {
+      dismissLoader(context);
+      showRegistrationErrorAlert(context,
+          'Registration failed. Please check and try again'
+      );
+    }
+  }
+
+  void onRegistrationSuccess(BuildContext context, User? vendor) async {
+    if (vendor != null) {
+      String id = vendor.uid;
+      String logoUrl = '';
+      if (_businessLogo != null) {
+        logoUrl = await uploadLogo(id);
+      }
+      addVendorDetails(context, id, logoUrl);
+    }
+  }
+
+  void showRegistrationErrorAlert(BuildContext context, String errorMessage) {
+    showErrorAlert(context,
+        errorTitle: 'Error occurred',
+        errorMessage: errorMessage
+    );
+  }
+
+  void addVendorDetails(BuildContext context, String id, String logoUrl) {
+    DocumentReference vendors = FirebaseFirestore.instance
+        .doc('vendors/$id');
+    vendors.set({
+      'id': id,
+      'logoUrl': logoUrl,
+      'businessName': _businessName,
+      'businessEmail': _businessEmail,
+      'whatsappNumber': _whatsappNumber,
+      'address': _address,
+      'openingHours': _openingHours,
+      'closingHours': _closingHours,
+      'description': _desc
+    })
+        .then((value) {
+          dismissLoader(context);
+          // Pops all and pushes the VendorPage
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return VendorPage(id: id,);
+            }),
+            (route) => false,
+          );
+    })
+        .catchError((error) {
+          dismissLoader(context);
+          showRegistrationErrorAlert(context, 'Try again');
+    });
+  }
+
   void pickImage() async {
-    var image = await LocalImage(ImageSourceType.gallery).pickImage();
+    var imageFile = await LocalImage(ImageSourceType.gallery).pickImageFile();
     setState(() {
-      if(image != null) {
-        _businessLogo = image;
+      if(imageFile != null) {
+        _businessLogo = imageFile;
       }
     });
+  }
+
+  Image showImage() => Image.file(
+    _businessLogo!,
+    width: 180.0,
+    height: 180.0,
+  );
+
+  Future<String> uploadLogo(String id) async {
+    final Reference ref = FirebaseStorage.instance.ref('logo/$id.jpg');
+    String url = await (await ref.putFile(_businessLogo!)).ref.getDownloadURL();
+    return url;
   }
 }
