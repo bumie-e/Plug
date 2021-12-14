@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:plug/components/custom_textfields.dart';
+import 'package:plug/utilities/alert_mixins.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
 import 'package:plug/utilities/image_picker.dart';
@@ -13,9 +16,10 @@ class ProductDetailsPage extends StatefulWidget {
   _ProductDetailsPageState createState() => _ProductDetailsPageState();
 }
 
-class _ProductDetailsPageState extends State<ProductDetailsPage> {
+class _ProductDetailsPageState extends State<ProductDetailsPage>
+    with AlertMixins {
   final _formKey = GlobalKey<FormState>();
-  Image? _productImage;
+  File? _productImage;
   String _productName = '';
   String _price = '';
   String _desc = '';
@@ -23,19 +27,25 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   String? valueChosen;
 
   void pickImage() async {
-    var image = await LocalImage(ImageSourceType.gallery).pickImage();
+    var imageFile = await LocalImage(ImageSourceType.gallery).pickImage();
     setState(() {
-      if (image != null) {
-         _productImage = Image.file(image);
+      if (imageFile != null) {
+        _productImage = imageFile;
       }
     });
   }
+
+  Image showImage() => Image.file(
+        _productImage!,
+        width: 180.0,
+        height: 180.0,
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
+          title: const Text(
             'Add Product Details',
           ),
         ),
@@ -56,33 +66,35 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
                         child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration:
-                                kBoxDecoration.copyWith(color: kPrimaryColor1),
-                            child: _productImage ??
-                                Column(
+                          height: 150,
+                          width: 150,
+                          decoration:
+                              kBoxDecoration.copyWith(color: kPrimaryColor1),
+                          child: _productImage == null
+                              ? Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                  children: const [
                                     Icon(
                                       Icons.camera_alt,
                                       color: Colors.white,
                                     ),
                                     Text(
                                       'Product Image',
-                                      style: kTextSytle2.copyWith(
-                                          color: Colors.white),
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.white),
                                     ),
                                   ],
-                                )),
+                                )
+                              : showImage(),
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 1),
                       borderRadius: BorderRadius.circular(5),
@@ -92,13 +104,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                         'Select Category',
                         // style: GoogleFonts.quicksand(),
                       ),
-                      icon: Icon(Icons.arrow_drop_down),
+                      icon: const Icon(Icons.arrow_drop_down),
                       iconSize: 36,
                       focusColor: kPrimaryColor1,
                       // dropdownColor: kPrimaryColor1,
 
                       isExpanded: true,
-                      underline: SizedBox(),
+                      underline: const SizedBox(),
                       value: valueChosen,
                       onChanged: (value) {
                         setState(() {
@@ -113,14 +125,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                           .toList(),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   PrimaryTextField(
                     labelText: 'Product name',
                     onSaved: (value) => _productName = value,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   PrimaryTextField(
@@ -128,13 +140,13 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     keyboardType: TextInputType.number,
                     onSaved: (value) => _price = value,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   MultiLineTextField(
                       labelText: 'Product Description',
                       onSaved: (value) => _desc = value),
-                  Text(
+                  const Text(
                     'Description should not be more than 500 words',
                     textAlign: TextAlign.left,
                     style: TextStyle(
@@ -143,7 +155,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                       fontWeight: FontWeight.w400,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   ReusableButton(

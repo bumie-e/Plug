@@ -27,9 +27,15 @@ class _SignInFormState extends State<SignInForm> with AlertMixins {
             onSaved: (value) => _email = value,
             keyboardType: TextInputType.emailAddress,
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PasswordTextField(onSaved: (value) => _password = value),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           ElevatedButton(
             onPressed: () {
@@ -39,7 +45,7 @@ class _SignInFormState extends State<SignInForm> with AlertMixins {
                 signInVendor(context);
               }
             },
-            child: const Text('SIGN IN'),
+            child: const Text('Sign in'),
           ),
         ],
       ),
@@ -49,9 +55,9 @@ class _SignInFormState extends State<SignInForm> with AlertMixins {
   void signInVendor(BuildContext context) {
     showLoadingAlert(context, text: 'Signing in');
 
-    FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email, password: _password
-    ).then((value) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: _email, password: _password)
+        .then((value) {
       onSignInSuccess(context, value.user);
     }).catchError((e) {
       onSignInFailure(context);
@@ -59,14 +65,16 @@ class _SignInFormState extends State<SignInForm> with AlertMixins {
   }
 
   void onSignInSuccess(BuildContext context, User? user) {
-    if(user != null) {
+    if (user != null) {
       dismissLoader(context);
 
       // Pops all and pushes the VendorPage
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) {
-          return VendorPage(id: user.uid,);
+          return VendorPage(
+            id: user.uid,
+          );
         }),
         (route) => false,
       );
@@ -77,7 +85,6 @@ class _SignInFormState extends State<SignInForm> with AlertMixins {
     dismissLoader(context);
     showErrorAlert(context,
         errorTitle: 'Sign in failed',
-        errorMessage: 'Invalid email/password combination'
-    );
+        errorMessage: 'Invalid email/password combination');
   }
 }
