@@ -5,10 +5,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/components/custom_textfields.dart';
+import 'package:plug/components/local_image_preview.dart';
 import 'package:plug/utilities/alert_mixins.dart';
 import 'package:plug/screens/vendor_screen.dart';
-import 'package:plug/utilities/image_picker.dart';
-import 'package:plug/utilities/constants.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -35,35 +34,11 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
       key: _formKey,
       child: Column(
         children: [
-          GestureDetector(
-            onTap: () {
-              pickImage();
+          LocalImagePreview(
+            label: 'Business logo',
+            onImageUpload: (file) {
+              _businessLogo = file;
             },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                height: 150,
-                width: 150,
-                decoration: kBoxDecoration.copyWith(color: kPrimaryColor1),
-                child: _businessLogo == null
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: const [
-                          Icon(
-                            Icons.camera_alt,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'Business Logo',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      )
-                    : showImage(),
-              ),
-            ),
           ),
           Padding(
             padding: const EdgeInsets.only(
@@ -204,21 +179,6 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
       showRegistrationErrorAlert(context, 'Try again');
     });
   }
-
-  void pickImage() async {
-    var imageFile = await LocalImage(ImageSourceType.gallery).pickImage();
-    setState(() {
-      if (imageFile != null) {
-        _businessLogo = imageFile;
-      }
-    });
-  }
-
-  Image showImage() => Image.file(
-        _businessLogo!,
-        width: 180.0,
-        height: 180.0,
-      );
 
   Future<String> uploadLogo(String id) async {
     final Reference ref = FirebaseStorage.instance.ref('logo/$id.jpg');
