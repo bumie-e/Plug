@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/screens/home_screen.dart';
+import 'package:plug/screens/product_detail.dart';
 import 'package:plug/screens/registration_screen.dart';
 import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/screens/vendor_screen.dart';
@@ -30,11 +31,11 @@ class MyApp extends StatelessWidget {
       title: 'Plug',
       theme: ThemeData(
         primarySwatch: kPrimaryColorSwatch,
-        fontFamily: 'Inter',
+        fontFamily: 'Quicksand',
         textTheme: const TextTheme(
           bodyText2: TextStyle(
             color: kPrimaryColor1,
-            fontWeight: FontWeight.w700,
+            fontWeight: FontWeight.w900,
           ),
         ),
       ),
