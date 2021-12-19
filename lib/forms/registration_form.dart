@@ -108,7 +108,7 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
                 createAccount(context);
               }
             },
-            child: const Text('REGISTER'),
+            child: const Text('Register'),
           ),
         ],
       ),
