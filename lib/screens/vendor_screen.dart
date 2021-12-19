@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:plug/components/empty_catalog_view.dart';
+import 'package:plug/components/product_cards.dart';
+import 'package:plug/delegates/vendor_appbar_delegate.dart';
+import 'package:plug/model/product.dart';
 import 'package:plug/model/vendor.dart';
-import 'package:plug/screens/welcome_screen.dart';
-import 'package:plug/utilities/alert_mixins.dart';
+import 'package:plug/screens/product_detail.dart';
 import 'package:plug/utilities/constants.dart';
 
 class VendorPage extends StatefulWidget {
@@ -13,14 +15,126 @@ class VendorPage extends StatefulWidget {
   const VendorPage({Key? key, required this.id}) : super(key: key);
 
   @override
-  _VendorPageState createState() => _VendorPageState();
+  _VendorPageState createState() => _VendorPageState(id);
 }
 
-class _VendorPageState extends State<VendorPage> with AlertMixins{
+class _VendorPageState extends State<VendorPage> {
   Vendor? _vendor;
+  final String id;
+  late final Stream<QuerySnapshot> _productsStream;
+
+  _VendorPageState(this.id);
 
   @override
   void initState() {
+    _productsStream = FirebaseFirestore.instance
+        .collection('products')
+        .where('id', isEqualTo: id)
+        .snapshots();
+
+    showSignedInSnackbar();
+    getVendor();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: kPrimaryColor2,
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return ProductDetailsPage(id: id);
+          }));
+        },
+        child: const Icon(
+          Icons.add,
+          size: 22.5,
+        ),
+      ),
+      body: _vendor == null
+          ? const Center(child: CircularProgressIndicator(),)
+          : CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                  delegate: VendorAppBarDelegate(
+                      context: context,
+                      id: id,
+                      imageUrl: _vendor!.logoUrl
+                  ),
+                  pinned: false,
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 64),
+                  sliver: SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _vendor!.businessName,
+                          style: const TextStyle(fontSize: 36),
+                        ),
+                        Text(_vendor!.businessEmail),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Align(
+                          alignment: Alignment.bottomLeft,
+                          child: Text(
+                            'Catalog',
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                StreamBuilder<QuerySnapshot>(
+                  stream: _productsStream,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasError) {
+                      return const SliverToBoxAdapter(
+                        child: Center(child: Text('Something went wrong')),
+                      );
+                    }
+
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const SliverToBoxAdapter(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+
+                    if (snapshot.data!.size == 0) {
+                      return const EmptyCatalogView();
+                    }
+
+                    return SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 280,
+                        mainAxisExtent: 220,
+                      ),
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          final product = Product.fromDocument(
+                              data: snapshot.data!.docs[index].data()
+                                  as Map<String, dynamic>);
+                          return VendorProductCard(product: product, currentId: id,);
+                        },
+                        childCount: snapshot.hasData ? snapshot.data!.size : 0,
+                      ),
+                    );
+                  },
+                )
+              ],
+            ),
+    );
+  }
+
+  showSignedInSnackbar() {
     Future<void>.delayed(Duration.zero, () {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -32,66 +146,13 @@ class _VendorPageState extends State<VendorPage> with AlertMixins{
         ),
       );
     });
-    getVendor();
-    super.initState();
   }
 
   void getVendor() async {
     final doc =
-        await FirebaseFirestore.instance.doc('vendors/${widget.id}').get();
+    await FirebaseFirestore.instance.doc('vendors/${widget.id}').get();
     setState(() {
       _vendor = Vendor.fromDocument(doc);
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: _vendor == null
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text('Welcome ${_vendor!.businessName}'),
-                loadImage(),
-                Align(
-                  alignment: Alignment.center,
-                  child: ElevatedButton(
-                    child: const Text('Sign out'),
-                    onPressed: () => signOut(context),
-                  ),
-                )
-              ],
-            ),
-    );
-  }
-
-  Widget loadImage() {
-    String url = _vendor!.logoUrl;
-    if (url.isEmpty) {
-      return const Text('No business logo');
-    } else {
-      return Image.network(
-        url,
-        width: 300,
-        height: 300,
-        loadingBuilder: (BuildContext context, Widget child,
-        ImageChunkEvent? loadingProgress) {
-          if (loadingProgress == null) return child;
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
-      );
-    }
-  }
-
-  void signOut(BuildContext context) async {
-    showLoadingAlert(context, text: 'Signing out');
-    await FirebaseAuth.instance.signOut();
-    dismissLoader(context);
-    Navigator.pushReplacementNamed(context, WelcomePage.routeName);
   }
 }
