@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:plug/utilities/constants.dart';
 
-class CustomSliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+class HomeAppBarDelegate extends SliverPersistentHeaderDelegate {
   final double expandedHeight;
 
-  CustomSliverAppBarDelegate({required this.expandedHeight});
+  HomeAppBarDelegate({required this.expandedHeight});
 
   @override
   Widget build(
