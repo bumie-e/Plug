@@ -13,7 +13,6 @@ import 'package:plug/utilities/constants.dart';
 import 'package:plug/screens/reset_password.dart';
 import 'package:plug/screens/new_Password.dart';
 import './screens/verify-email.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,9 +31,12 @@ class MyApp extends StatelessWidget {
       title: 'Plug',
       theme: ThemeData(
         primarySwatch: kPrimaryColorSwatch,
-        // fontFamily: 'Inter',
-        textTheme: GoogleFonts.quicksandTextTheme(
-          Theme.of(context).textTheme,
+        fontFamily: 'Quicksand',
+        textTheme: const TextTheme(
+          bodyText2: TextStyle(
+            color: kPrimaryColor1,
+            fontWeight: FontWeight.w900,
+          ),
         ),
       ),
       home: appropriateHome(),
@@ -43,10 +45,9 @@ class MyApp extends StatelessWidget {
         HomePage.routeName: (context) => HomePage(),
         SignInPage.routeName: (context) => SignInPage(),
         RegistrationPage.routeName: (context) => RegistrationPage(),
-        ForgotPassword.routeName: (context) => ForgotPassword(),
-        NewPassWord.id: (context) => NewPassWord(),
+        ForgotPassword.routeName : (context) => ForgotPassword(),
+        NewPassWord.id : (context) => NewPassWord(),
         VerifyEmail.id: (context) => VerifyEmail(),
-        ProductDetailsPage.routeName: (context) => ProductDetailsPage(),
       },
     );
   }

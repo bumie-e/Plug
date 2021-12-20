@@ -5,6 +5,8 @@ const kPrimaryColor2 = Color(0xffE2B93B);
 
 const kImagesRoot = 'assets/images/';
 
+const kCategories = ['Food', 'Shoes', 'Hostels', 'Clothes', 'Others'];
+
 const kHeadingTextyStyle1 = TextStyle(
   fontSize: 30,
   fontWeight: FontWeight.w700,
@@ -65,6 +67,15 @@ const kBoxShadow = [
     spreadRadius: 1,
     blurRadius: 10,
     offset: Offset(0, 0.1),
+  )
+];
+
+const kImageBoxShadow = [
+  BoxShadow(
+    color: Color.fromRGBO(0, 0, 0, 0.25),
+    offset: Offset(0, 0.1),
+    spreadRadius: 5,
+    blurRadius: 10,
   )
 ];
 

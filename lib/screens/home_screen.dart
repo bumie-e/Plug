@@ -1,24 +1,52 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:plug/components/appbar_delegate.dart';
+import 'package:plug/delegates/home_appbar_delegate.dart';
 import 'package:plug/components/category_card.dart';
+import 'package:plug/components/product_cards.dart';
+import 'package:plug/model/product.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/section_header.dart';
 
 class HomePage extends StatefulWidget {
-
   static const routeName = '/home';
+
+  String? currentUserId;
+
+  HomePage({this.currentUserId});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-enum Category { food, shoes, hostels, others }
+enum Category { food, shoes, hostels, clothes, others }
 
 class _HomePageState extends State<HomePage> {
   Category selectedCategory = Category.food;
-  List<String> categories = ['Food', 'Shoes', 'Hostels', 'Clothes', 'Others'];
   List<String> images = ['pizza.png', 'shoes.png', 'hostels.png', 'others.png'];
+
+  late Stream<QuerySnapshot> _productStream;
+
+  @override
+  void initState() {
+    setStream(selectedCategory.index);
+    super.initState();
+  }
+
+  void setStream(int index) {
+    setState(() {
+      _productStream = FirebaseFirestore.instance
+          .collection('products')
+          .where('category', isEqualTo: kCategories[index])
+          .snapshots();
+    });
+  }
+
+  void onCategoryChange(int index) {
+    setState(() {
+      selectedCategory = Category.values[index];
+    });
+    setStream(index);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +54,7 @@ class _HomePageState extends State<HomePage> {
       body: CustomScrollView(
         slivers: [
           SliverPersistentHeader(
-            delegate: CustomSliverAppBarDelegate(expandedHeight: 132),
+            delegate: HomeAppBarDelegate(expandedHeight: 132),
             pinned: true,
             floating: false,
           ),
@@ -41,16 +69,14 @@ class _HomePageState extends State<HomePage> {
                       physics: const ClampingScrollPhysics(),
                       shrinkWrap: true,
                       scrollDirection: Axis.horizontal,
-                      itemCount: categories.length,
+                      itemCount: kCategories.length,
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () {
-                            setState(() {
-                              selectedCategory = Category.values[index];
-                            });
+                            onCategoryChange(index);
                           },
                           child: CategoryCard(
-                            text: categories[index],
+                            text: kCategories[index],
                             isSelected: index == selectedCategory.index,
                             // Same image for now
                             imageLocation: kImagesRoot + images[0],
@@ -62,53 +88,47 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SectionHeader(
                     text:
-                        'Available Vendors: ${categories[selectedCategory.index]}'),
+                    'Available Vendors: ${kCategories[selectedCategory.index]}'),
               ]),
             ),
           ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-              (context, index) => Container(
-                height: 120,
-                margin: const EdgeInsets.fromLTRB(22, 15, 22, 15),
-                decoration: kBoxDecoration.copyWith(boxShadow: kBoxShadow),
-                child: Row(
-                  children: [
-                    Image.asset(
-                      // Same image still
-                      'assets/images/pizza.png',
-                      height: 110,
-                      width: 110,
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text(
-                          'McDonald\'s',
-                          style: TextStyle(fontSize: 24.0),
-                        ),
-                        Text(
-                          'Food at your door step',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        Text(
-                          'OAU Campus',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
+          StreamBuilder<QuerySnapshot>(
+            stream: _productStream,
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return const SliverToBoxAdapter(
+                  child: Center(child: Text('Something went wrong')),
+                );
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const SliverToBoxAdapter(
+                  child: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                );
+              }
+
+              if (snapshot.data!.size == 0) {
+                return const SliverToBoxAdapter(
+                  child: Center(
+                    child: Text('Unavailable'),
+                  ),
+                );
+              }
+
+              return SliverList(
+                delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                    final product = Product.fromDocument(
+                        data: snapshot.data!.docs[index].data()
+                        as Map<String, dynamic>);
+                    return HomeProductCard(product: product);
+                  },
+                  childCount: snapshot.hasData ? snapshot.data!.size : 0,
                 ),
-              ),
-              childCount: 10,
-            ),
+              );
+            },
           ),
         ],
       ),

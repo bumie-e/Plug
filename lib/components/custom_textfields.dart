@@ -30,8 +30,10 @@ class PrimaryTextField extends StatelessWidget {
             return 'Please enter a valid email address';
           }
         } else if(keyboardType == TextInputType.number) {
-          if(value.length != 11) {
-            return 'An 11 digit number is required';
+          if(labelText != 'Price') {
+            if (value.length != 11) {
+              return 'An 11 digit number is required';
+            }
           }
         }
         return null;
@@ -52,9 +54,12 @@ class MultiLineTextField extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       minLines: 1,
       maxLines: 5,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Business description',
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        labelText: labelText,
+        hintText: labelText == 'Product Description'
+            ? 'should not be more than 500 words'
+            : null
       ),
       onSaved: (value) => onSaved(value),
       validator: (value) {
