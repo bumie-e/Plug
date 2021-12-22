@@ -36,16 +36,16 @@ class _WelcomePageState extends State<WelcomePage> {
                 style: kSubHeadingTextStyle,
               ),
               const SizedBox(height: 40),
-              Image.asset(
-                "assets/images/wel1.png",
-                height: 350,
-                width: 350,
-              ),
-              // SvgPicture.asset(
-              //   "assets/images/wel11.svg",
+              // Image.asset(
+              //   "assets/images/wel1.png",
               //   height: 350,
               //   width: 350,
               // ),
+              SvgPicture.asset(
+                "assets/images/welcome.svg",
+                height: 375,
+                width: 375,
+              ),
               const SizedBox(height: 42),
               ReusableButton(
                 title: 'Create Business Account',

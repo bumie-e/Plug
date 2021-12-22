@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:plug/components/reusable_button.dart';
 import 'package:plug/delegates/view_product_appbar_delegate.dart';
 import 'package:plug/model/product.dart';
 import 'package:plug/utilities/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewProductPage extends StatelessWidget {
   final String? currentUserId;
@@ -14,6 +17,30 @@ class ViewProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    openWhatsApp() async {
+      var whatsapp = "+2349060930475";
+      var whatsappURl_android =
+          "whatsapp://send?phone=" + whatsapp + "&text=hello";
+      var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
+      if (Platform.isIOS) {
+        // for iOS phone only
+        if (await canLaunch(whatappURL_ios)) {
+          await launch(whatappURL_ios, forceSafariVC: false);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: new Text("whatsapp no installed")));
+        }
+      } else {
+        // android , web
+        if (await canLaunch(whatsappURl_android)) {
+          await launch(whatsappURl_android);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: new Text("whatsapp no installed")));
+        }
+      }
+    }
+
     return Scaffold(
       body: CustomScrollView(
         slivers: [
@@ -77,7 +104,9 @@ class ViewProductPage extends StatelessWidget {
                                   width: 50,
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    openWhatsApp();
+                                  },
                                   icon: const Icon(FontAwesomeIcons.whatsapp),
                                 ),
                                 const SizedBox(
