@@ -53,41 +53,47 @@ class _VendorPageState extends State<VendorPage> {
         ),
       ),
       body: _vendor == null
-          ? const Center(child: CircularProgressIndicator(),)
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
           : CustomScrollView(
               slivers: [
                 SliverPersistentHeader(
                   delegate: VendorAppBarDelegate(
-                      context: context,
-                      id: id,
-                      imageUrl: _vendor!.logoUrl
-                  ),
+                      context: context, id: id, imageUrl: _vendor!.logoUrl),
                   pinned: false,
                 ),
                 SliverPadding(
                   padding: const EdgeInsets.only(top: 64),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          _vendor!.businessName,
-                          style: const TextStyle(fontSize: 36),
-                        ),
-                        Text(_vendor!.businessEmail),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        const Align(
-                          alignment: Alignment.bottomLeft,
-                          child: Text(
-                            'Catalog',
-                            style: TextStyle(
-                              fontSize: 20,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        left: 16,
+                        right: 16,
+                        bottom: 16,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            _vendor!.businessName,
+                            style: const TextStyle(fontSize: 36),
+                          ),
+                          Text(_vendor!.businessEmail),
+                          const SizedBox(
+                            height: 15,
+                          ),
+                          const Align(
+                            alignment: Alignment.bottomLeft,
+                            child: Text(
+                              'Catalog',
+                              style: TextStyle(
+                                fontSize: 22,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -113,7 +119,8 @@ class _VendorPageState extends State<VendorPage> {
                     }
 
                     return SliverGrid(
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                      gridDelegate:
+                          const SliverGridDelegateWithMaxCrossAxisExtent(
                         maxCrossAxisExtent: 280,
                         mainAxisExtent: 220,
                       ),
@@ -122,7 +129,10 @@ class _VendorPageState extends State<VendorPage> {
                           final product = Product.fromDocument(
                               data: snapshot.data!.docs[index].data()
                                   as Map<String, dynamic>);
-                          return VendorProductCard(product: product, currentId: id,);
+                          return VendorProductCard(
+                            product: product,
+                            currentId: id,
+                          );
                         },
                         childCount: snapshot.hasData ? snapshot.data!.size : 0,
                       ),
@@ -150,7 +160,7 @@ class _VendorPageState extends State<VendorPage> {
 
   void getVendor() async {
     final doc =
-    await FirebaseFirestore.instance.doc('vendors/${widget.id}').get();
+        await FirebaseFirestore.instance.doc('vendors/${widget.id}').get();
     setState(() {
       _vendor = Vendor.fromDocument(doc);
     });

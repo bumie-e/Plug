@@ -19,27 +19,26 @@ class ProductForm extends StatefulWidget {
 }
 
 class _ProductFormState extends State<ProductForm> with AlertMixins {
-
   final String vendorId;
   final _formKey = GlobalKey<FormState>();
   File? _productImageFile;
   String _productName = '';
   String _price = '';
   String _desc = '';
-  String? _category;
+  // String? _category;
 
-  bool changeCategoryColor = false;
+  // bool changeCategoryColor = false;
 
   _ProductFormState(this.vendorId);
 
   void uploadProduct(BuildContext context, String url) async {
-    CollectionReference vendorProducts = FirebaseFirestore.instance
-        .collection('products');
+    CollectionReference vendorProducts =
+        FirebaseFirestore.instance.collection('products');
 
     vendorProducts.add({
       'id': vendorId,
       'productImageUrl': url,
-      'category': _category,
+      // 'category': _category,
       'productName': _productName,
       'price': _price,
       'description': _desc
@@ -48,18 +47,16 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
       Navigator.pop(context);
     }).catchError((error) {
       dismissLoader(context);
-      showErrorAlert(
-          context,
-          errorTitle: 'Upload Failed',
-          errorMessage: 'Try again'
-      );
+      showErrorAlert(context,
+          errorTitle: 'Upload Failed', errorMessage: 'Try again');
     });
   }
 
   void uploadLogo(BuildContext context) async {
     final Reference ref = FirebaseStorage.instance
         .ref('products/$vendorId/${_productImageFile!.path}.jpg');
-    String url = await (await ref.putFile(_productImageFile!)).ref.getDownloadURL();
+    String url =
+        await (await ref.putFile(_productImageFile!)).ref.getDownloadURL();
     uploadProduct(context, url);
   }
 
@@ -75,50 +72,50 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
       child: Column(
         children: [
           LocalImagePreview(
-            label: 'Product logo',
+            label: 'Product Image',
             onImageUpload: (file) {
               _productImageFile = file;
             },
           ),
           const SizedBox(
-            height: 30,
+            height: 40,
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 10, right: 10),
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: changeCategoryColor ? Colors.red : Colors.grey,
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(5),
-            ),
-            child: DropdownButton(
-              hint: Text(
-                'Select Category',
-                style: TextStyle(
-                  color: changeCategoryColor ? Colors.red : null,
-                ),
-              ),
-              icon: const Icon(Icons.arrow_drop_down),
-              iconSize: 36,
-              focusColor: kPrimaryColor1,
-              isExpanded: true,
-              underline: const SizedBox(),
-              value: _category,
-              onChanged: (value) {
-                FocusScope.of(context).requestFocus(FocusNode());
-                setState(() {
-                  _category = value as String?;
-                });
-              },
-              items: kCategories
-                  .map((valueItem) => DropdownMenuItem(
-                        value: valueItem,
-                        child: Text(valueItem),
-                      ))
-                  .toList(),
-            ),
-          ),
+          // Container(
+          //   padding: const EdgeInsets.only(left: 10, right: 10),
+          //   decoration: BoxDecoration(
+          //     border: Border.all(
+          //       color: changeCategoryColor ? Colors.red : Colors.grey,
+          //       width: 1,
+          //     ),
+          //     borderRadius: BorderRadius.circular(5),
+          //   ),
+          //   child: DropdownButton(
+          //     hint: Text(
+          //       'Select Category',
+          //       style: TextStyle(
+          //         color: changeCategoryColor ? Colors.red : null,
+          //       ),
+          //     ),
+          //     icon: const Icon(Icons.arrow_drop_down),
+          //     iconSize: 36,
+          //     focusColor: kPrimaryColor1,
+          //     isExpanded: true,
+          //     underline: const SizedBox(),
+          //     value: _category,
+          //     onChanged: (value) {
+          //       FocusScope.of(context).requestFocus(FocusNode());
+          //       setState(() {
+          //         _category = value as String?;
+          //       });
+          //     },
+          //     items: kCategories
+          //         .map((valueItem) => DropdownMenuItem(
+          //               value: valueItem,
+          //               child: Text(valueItem),
+          //             ))
+          //         .toList(),
+          //   ),
+          // ),
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
             child: PrimaryTextField(
@@ -149,19 +146,17 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
               kPrimaryColor1,
             ),
             onPressed: () {
-              if(_productImageFile == null) {
-                setState(() => changeCategoryColor = true);
-                showErrorAlert(
-                  context,
-                  errorTitle: 'Required',
-                  errorMessage: 'Upload product image'
-                );
-              } else if(_category == null) {
-                showErrorAlert(
-                    context,
+              if (_productImageFile == null) {
+                // setState(() => changeCategoryColor = true);
+                showErrorAlert(context,
                     errorTitle: 'Required',
-                    errorMessage: 'Select a category'
-                );
+                    errorMessage: 'Upload product image');
+                // } else if(_category == null) {
+                //   showErrorAlert(
+                //       context,
+                //       errorTitle: 'Required',
+                //       errorMessage: 'Select a category'
+                //   );
               } else {
                 final form = _formKey.currentState!;
                 if (form.validate()) {

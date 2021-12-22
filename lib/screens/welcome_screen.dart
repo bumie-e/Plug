@@ -4,6 +4,7 @@ import 'package:plug/screens/registration_screen.dart';
 import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/reusable_button.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class WelcomePage extends StatefulWidget {
   static const routeName = '/welcome';
@@ -35,8 +36,13 @@ class _WelcomePageState extends State<WelcomePage> {
                 style: kSubHeadingTextStyle,
               ),
               const SizedBox(height: 40),
-              Image.asset(
-                "assets/images/first.png",
+              // Image.asset(
+              //   "assets/images/first.png",
+              //   height: 350,
+              //   width: 350,
+              // ),
+              SvgPicture.asset(
+                "assets/images/welcome.svg",
                 height: 350,
                 width: 350,
               ),

@@ -8,6 +8,7 @@ import 'package:plug/components/custom_textfields.dart';
 import 'package:plug/components/local_image_preview.dart';
 import 'package:plug/utilities/alert_mixins.dart';
 import 'package:plug/screens/vendor_screen.dart';
+import 'package:plug/utilities/constants.dart';
 
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({Key? key}) : super(key: key);
@@ -27,6 +28,8 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
   String _openingHours = '';
   String _closingHours = '';
   String _desc = '';
+  String? _category;
+  bool changeCategoryColor = false;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +43,9 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               _businessLogo = file;
             },
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(
               top: 12.0,
@@ -49,6 +55,48 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               onSaved: (value) => _businessName = value,
             ),
           ),
+          const SizedBox(
+            height: 27,
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 10, right: 10),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: changeCategoryColor ? Colors.red : Colors.grey,
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(5),
+            ),
+            child: DropdownButton(
+              hint: Text(
+                'Select Category',
+                style: TextStyle(
+                  color: changeCategoryColor ? Colors.red : null,
+                ),
+              ),
+              icon: const Icon(Icons.arrow_drop_down),
+              iconSize: 36,
+              focusColor: kPrimaryColor1,
+              isExpanded: true,
+              underline: const SizedBox(),
+              value: _category,
+              onChanged: (value) {
+                FocusScope.of(context).requestFocus(FocusNode());
+                setState(() {
+                  _category = value as String?;
+                });
+              },
+              items: kCategories
+                  .map((valueItem) => DropdownMenuItem(
+                        value: valueItem,
+                        child: Text(valueItem),
+                      ))
+                  .toList(),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PrimaryTextField(
@@ -57,9 +105,15 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               keyboardType: TextInputType.emailAddress,
             ),
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PasswordTextField(onSaved: (value) => _password = value),
+          ),
+          const SizedBox(
+            height: 15,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
@@ -69,12 +123,18 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               keyboardType: TextInputType.number,
             ),
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: PrimaryTextField(
               labelText: 'Address',
               onSaved: (value) => _address = value,
             ),
+          ),
+          const SizedBox(
+            height: 15,
           ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
@@ -84,6 +144,9 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
                   _openingHours = value.toString();
                 }),
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: TimePickerTextField(
@@ -92,6 +155,9 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
                   _closingHours = value.toString();
                 }),
           ),
+          const SizedBox(
+            height: 15,
+          ),
           Padding(
             padding: const EdgeInsets.only(top: 12.0),
             child: MultiLineTextField(
@@ -99,9 +165,13 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               onSaved: (value) => _desc = value,
             ),
           ),
+          const SizedBox(
+            height: 15,
+          ),
           ElevatedButton(
             onPressed: () async {
               final form = _formKey.currentState!;
+              setState(() => changeCategoryColor = true);
 
               if (form.validate()) {
                 form.save();

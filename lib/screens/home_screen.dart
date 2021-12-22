@@ -6,6 +6,7 @@ import 'package:plug/components/product_cards.dart';
 import 'package:plug/model/product.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/section_header.dart';
+import 'package:plug/utilities/constants.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
@@ -88,7 +89,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 SectionHeader(
                     text:
-                    'Available Vendors: ${kCategories[selectedCategory.index]}'),
+                        'Available Vendors: ${kCategories[selectedCategory.index]}'),
               ]),
             ),
           ),
@@ -119,10 +120,10 @@ class _HomePageState extends State<HomePage> {
 
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
-                      (context, index) {
+                  (context, index) {
                     final product = Product.fromDocument(
                         data: snapshot.data!.docs[index].data()
-                        as Map<String, dynamic>);
+                            as Map<String, dynamic>);
                     return HomeProductCard(product: product);
                   },
                   childCount: snapshot.hasData ? snapshot.data!.size : 0,

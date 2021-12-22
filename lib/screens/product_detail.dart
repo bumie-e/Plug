@@ -31,7 +31,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: ProductForm(vendorId: id,),
+            child: ProductForm(
+              vendorId: id,
+            ),
           ),
         ));
   }

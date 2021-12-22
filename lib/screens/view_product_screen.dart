@@ -73,12 +73,16 @@ class ViewProductPage extends StatelessWidget {
                                   onPressed: () {},
                                   icon: const Icon(Icons.call),
                                 ),
-                                const SizedBox(width: 50,),
+                                const SizedBox(
+                                  width: 50,
+                                ),
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(FontAwesomeIcons.whatsapp),
                                 ),
-                                const SizedBox(width: 50,),
+                                const SizedBox(
+                                  width: 50,
+                                ),
                                 IconButton(
                                   onPressed: () {},
                                   icon: const Icon(Icons.email),
