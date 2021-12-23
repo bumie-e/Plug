@@ -18,26 +18,24 @@ class ViewProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     openWhatsApp() async {
-      var whatsapp = "+2349060930475";
-      var whatsappURl_android =
-          "whatsapp://send?phone=" + whatsapp + "&text=hello";
-      var whatappURL_ios = "https://wa.me/$whatsapp?text=${Uri.parse("hello")}";
-      if (Platform.isIOS) {
-        // for iOS phone only
-        if (await canLaunch(whatappURL_ios)) {
-          await launch(whatappURL_ios, forceSafariVC: false);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: new Text("whatsapp no installed")));
-        }
+      var whatsapp = ""; //vendor whatsApp number
+      var whatsappURlAndroid =
+          "whatsapp://send?phone=" + whatsapp + "&text=Hello";
+
+      if (await canLaunch(whatsappURlAndroid)) {
+        await launch(whatsappURlAndroid);
       } else {
-        // android , web
-        if (await canLaunch(whatsappURl_android)) {
-          await launch(whatsappURl_android);
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: new Text("whatsapp no installed")));
-        }
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("WhatsApp not installed")));
+      }
+    }
+
+    launchDialler() async {
+      const url = "tel: 09060930475";
+      if (await canLaunch(url)) {
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
       }
     }
 
@@ -97,7 +95,9 @@ class ViewProductPage extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    launchDialler();
+                                  },
                                   icon: const Icon(Icons.call),
                                 ),
                                 const SizedBox(
@@ -113,7 +113,10 @@ class ViewProductPage extends StatelessWidget {
                                   width: 50,
                                 ),
                                 IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    launch(
+                                        'mailto:plugsupport@gmail.com?subject=This is Subject Title&body=This is Body of Email');
+                                  },
                                   icon: const Icon(Icons.email),
                                 ),
                               ],
