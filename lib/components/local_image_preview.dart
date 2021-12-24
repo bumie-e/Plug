@@ -26,8 +26,8 @@ class _LocalImagePreviewState
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        showImageBottomSheet(context, onImageUpload: (file) {
-          if(file != null) {
+        showImageBottomSheet(context, onImageUpload: (file, shouldRemove) {
+          if(file != null || shouldRemove) {
             widget.onImageUpload(file);
             setState(() => _imageFile = file);
           }
