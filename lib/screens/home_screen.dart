@@ -80,7 +80,7 @@ class _HomePageState extends State<HomePage> {
                             text: kCategories[index],
                             isSelected: index == selectedCategory.index,
                             // Same image for now
-                            imageLocation: kImagesRoot + images[0],
+                            imageLocation: kImagesRoot + images[index],
                             width: 95,
                             height: 100,
                           ),

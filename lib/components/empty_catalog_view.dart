@@ -10,10 +10,8 @@ class EmptyCatalogView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            'assets/images/try2.svg',
-            height: 350,
-            width: 350,
+          Image.asset(
+            'assets/images/empty_catalog.png',
           ),
           const Text(
             'No product in your catalog yet',
