@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Vendor{
   final String id;
+  final String category;
   final String logoUrl;
   final String businessName;
   final String businessEmail;
@@ -13,6 +14,7 @@ class Vendor{
 
   Vendor({
     required this.id,
+    required this.category,
     required this.logoUrl,
     required this.businessName,
     required this.businessEmail,
@@ -26,6 +28,7 @@ class Vendor{
   factory Vendor.fromDocument(DocumentSnapshot doc) {
     return Vendor(
       id: doc.id,
+      category: doc['category'],
       logoUrl: doc['logoUrl'],
       businessName: doc['businessName'],
       businessEmail: doc['businessEmail'],

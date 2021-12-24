@@ -25,9 +25,6 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
   String _productName = '';
   String _price = '';
   String _desc = '';
-  // String? _category;
-
-  // bool changeCategoryColor = false;
 
   _ProductFormState(this.vendorId);
 
@@ -38,7 +35,6 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
     vendorProducts.add({
       'id': vendorId,
       'productImageUrl': url,
-      // 'category': _category,
       'productName': _productName,
       'price': _price,
       'description': _desc
@@ -80,42 +76,6 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
           const SizedBox(
             height: 40,
           ),
-          // Container(
-          //   padding: const EdgeInsets.only(left: 10, right: 10),
-          //   decoration: BoxDecoration(
-          //     border: Border.all(
-          //       color: changeCategoryColor ? Colors.red : Colors.grey,
-          //       width: 1,
-          //     ),
-          //     borderRadius: BorderRadius.circular(5),
-          //   ),
-          //   child: DropdownButton(
-          //     hint: Text(
-          //       'Select Category',
-          //       style: TextStyle(
-          //         color: changeCategoryColor ? Colors.red : null,
-          //       ),
-          //     ),
-          //     icon: const Icon(Icons.arrow_drop_down),
-          //     iconSize: 36,
-          //     focusColor: kPrimaryColor1,
-          //     isExpanded: true,
-          //     underline: const SizedBox(),
-          //     value: _category,
-          //     onChanged: (value) {
-          //       FocusScope.of(context).requestFocus(FocusNode());
-          //       setState(() {
-          //         _category = value as String?;
-          //       });
-          //     },
-          //     items: kCategories
-          //         .map((valueItem) => DropdownMenuItem(
-          //               value: valueItem,
-          //               child: Text(valueItem),
-          //             ))
-          //         .toList(),
-          //   ),
-          // ),
           Padding(
             padding: const EdgeInsets.only(top: 30.0),
             child: PrimaryTextField(
@@ -141,22 +101,15 @@ class _ProductFormState extends State<ProductForm> with AlertMixins {
           ),
 
           ReusableButton(
-            title: 'Add Products',
+            title: 'Add Product',
             color: MaterialStateProperty.all(
               kPrimaryColor1,
             ),
             onPressed: () {
               if (_productImageFile == null) {
-                // setState(() => changeCategoryColor = true);
                 showErrorAlert(context,
                     errorTitle: 'Required',
                     errorMessage: 'Upload product image');
-                // } else if(_category == null) {
-                //   showErrorAlert(
-                //       context,
-                //       errorTitle: 'Required',
-                //       errorMessage: 'Select a category'
-                //   );
               } else {
                 final form = _formKey.currentState!;
                 if (form.validate()) {
