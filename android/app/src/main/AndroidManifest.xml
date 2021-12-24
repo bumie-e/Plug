@@ -2,7 +2,7 @@
     package="com.example.plug">
    <application
         android:label="plug"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/plug">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

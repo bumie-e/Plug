@@ -20,7 +20,13 @@ enum Category { food, shoes, hostels, clothes, others }
 
 class _HomePageState extends State<HomePage> {
   Category selectedCategory = Category.food;
-  List<String> images = ['pizza.png', 'shoes.png', 'hostels.png', 'others.png'];
+  List<String> images = [
+    'pizza.png',
+    'shoes.png',
+    'hostels.png',
+    'clothes.png',
+    'others.png',
+  ];
 
   late Stream<QuerySnapshot> _productStream;
 
@@ -118,7 +124,8 @@ class _HomePageState extends State<HomePage> {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final vendor = Vendor.fromDocument(snapshot.data!.docs[index]);
+                    final vendor =
+                        Vendor.fromDocument(snapshot.data!.docs[index]);
                     return HomeVendorCard(vendor: vendor);
                   },
                   childCount: snapshot.hasData ? snapshot.data!.size : 0,
