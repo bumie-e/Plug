@@ -28,7 +28,7 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
   String _openingHours = '';
   String _closingHours = '';
   String _desc = '';
-  String? _category;
+  String _category = '';
   bool changeCategoryColor = false;
 
   @override
@@ -43,12 +43,9 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               _businessLogo = file;
             },
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
             padding: const EdgeInsets.only(
-              top: 12.0,
+              top: 27.0,
             ),
             child: PrimaryTextField(
               labelText: 'Business name',
@@ -79,11 +76,11 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
               focusColor: kPrimaryColor1,
               isExpanded: true,
               underline: const SizedBox(),
-              value: _category,
+              value: _category == '' ? null : _category,
               onChanged: (value) {
                 FocusScope.of(context).requestFocus(FocusNode());
                 setState(() {
-                  _category = value as String?;
+                  _category = value as String;
                 });
               },
               items: kCategories
@@ -94,86 +91,60 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
                   .toList(),
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: PrimaryTextField(
               labelText: 'Business email',
               onSaved: (value) => _businessEmail = value,
               keyboardType: TextInputType.emailAddress,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: PasswordTextField(onSaved: (value) => _password = value),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: PrimaryTextField(
               labelText: 'WhatsApp number',
               onSaved: (value) => _whatsappNumber = value,
               keyboardType: TextInputType.number,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: PrimaryTextField(
               labelText: 'Address',
               onSaved: (value) => _address = value,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: TimePickerTextField(
                 text: 'Opening hours',
                 onTimePicked: (value) {
                   _openingHours = value.toString();
                 }),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: TimePickerTextField(
                 text: 'Closing hours',
                 onTimePicked: (value) {
                   _closingHours = value.toString();
                 }),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           Padding(
-            padding: const EdgeInsets.only(top: 12.0),
+            padding: const EdgeInsets.only(top: 27.0),
             child: MultiLineTextField(
               labelText: 'Business Description',
               onSaved: (value) => _desc = value,
             ),
           ),
-          const SizedBox(
-            height: 15,
-          ),
           ElevatedButton(
             onPressed: () async {
               final form = _formKey.currentState!;
-              setState(() => changeCategoryColor = true);
-
-              if (form.validate()) {
+              if (validateCategory() && form.validate()) {
                 form.save();
                 createAccount(context);
               }
@@ -183,6 +154,16 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
         ],
       ),
     );
+  }
+
+  bool validateCategory() {
+    if(_category == '') {
+      setState(() => changeCategoryColor = true);
+      return false;
+    } else {
+      setState(() => changeCategoryColor = false);
+      return true;
+    }
   }
 
   void createAccount(BuildContext context) async {
@@ -225,6 +206,7 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
     vendors.set({
       'id': id,
       'logoUrl': logoUrl,
+      'category': _category,
       'businessName': _businessName,
       'businessEmail': _businessEmail,
       'whatsappNumber': _whatsappNumber,
