@@ -1,19 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:plug/components/vendor_card.dart';
 import 'package:plug/delegates/home_appbar_delegate.dart';
 import 'package:plug/components/category_card.dart';
-import 'package:plug/components/product_cards.dart';
-import 'package:plug/model/product.dart';
+import 'package:plug/model/vendor.dart';
 import 'package:plug/utilities/constants.dart';
 import 'package:plug/components/section_header.dart';
-import 'package:plug/utilities/constants.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home';
 
-  String? currentUserId;
-
-  HomePage({this.currentUserId});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -36,7 +33,7 @@ class _HomePageState extends State<HomePage> {
   void setStream(int index) {
     setState(() {
       _productStream = FirebaseFirestore.instance
-          .collection('products')
+          .collection('vendors')
           .where('category', isEqualTo: kCategories[index])
           .snapshots();
     });
@@ -121,10 +118,8 @@ class _HomePageState extends State<HomePage> {
               return SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final product = Product.fromDocument(
-                        data: snapshot.data!.docs[index].data()
-                            as Map<String, dynamic>);
-                    return HomeProductCard(product: product);
+                    final vendor = Vendor.fromDocument(snapshot.data!.docs[index]);
+                    return HomeVendorCard(vendor: vendor);
                   },
                   childCount: snapshot.hasData ? snapshot.data!.size : 0,
                 ),

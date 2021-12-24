@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/components/empty_catalog_view.dart';
-import 'package:plug/components/product_cards.dart';
+import 'package:plug/components/product_card.dart';
 import 'package:plug/delegates/vendor_appbar_delegate.dart';
 import 'package:plug/model/product.dart';
 import 'package:plug/model/vendor.dart';
@@ -60,7 +60,7 @@ class _VendorPageState extends State<VendorPage> {
               slivers: [
                 SliverPersistentHeader(
                   delegate: VendorAppBarDelegate(
-                      context: context, id: id, imageUrl: _vendor!.logoUrl),
+                      context: context, imageUrl: _vendor!.logoUrl),
                   pinned: false,
                 ),
                 SliverPadding(
@@ -126,13 +126,8 @@ class _VendorPageState extends State<VendorPage> {
                       ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          final product = Product.fromDocument(
-                              data: snapshot.data!.docs[index].data()
-                                  as Map<String, dynamic>);
-                          return VendorProductCard(
-                            product: product,
-                            currentId: id,
-                          );
+                          final product = Product.fromDocument(snapshot.data!.docs[index]);
+                          return ProductCard(product: product, showForUser: false,);
                         },
                         childCount: snapshot.hasData ? snapshot.data!.size : 0,
                       ),

@@ -71,7 +71,7 @@ mixin AlertMixins {
   void dismissLoader(BuildContext context) => Navigator.pop(context);
 
   void showImageBottomSheet(BuildContext context,
-      {required Function(File? file) onImageUpload}) {
+      {required Function(File? file, bool shouldRemove) onImageUpload}) {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -89,7 +89,7 @@ mixin AlertMixins {
                   onPressed: () async {
                     dismissLoader(context);
                     onImageUpload(
-                        await LocalImage(ImageSourceType.gallery).pickImage());
+                        await LocalImage(ImageSourceType.gallery).pickImage(), false);
                   },
                 ),
                 ElevatedButton(
@@ -97,13 +97,13 @@ mixin AlertMixins {
                   onPressed: () async {
                     dismissLoader(context);
                     onImageUpload(
-                        await LocalImage(ImageSourceType.camera).pickImage());
+                        await LocalImage(ImageSourceType.camera).pickImage(), false);
                   },
                 ),
                 TextButton(
                   child: const Text('Remove photo'),
                   onPressed: () {
-                    onImageUpload(null);
+                    onImageUpload(null, true);
                     dismissLoader(context);
                   },
                 ),
