@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:plug/screens/home_screen.dart';
-import 'package:plug/screens/product_detail.dart';
 import 'package:plug/screens/registration_screen.dart';
 import 'package:plug/screens/sign_in_screen.dart';
 import 'package:plug/screens/vendor_screen.dart';

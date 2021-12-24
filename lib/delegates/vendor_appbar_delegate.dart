@@ -10,16 +10,16 @@ class VendorAppBarDelegate
     extends SliverPersistentHeaderDelegate with AlertMixins {
 
   final BuildContext context;
-  final String id;
   final double expandedHeight = 132;
   final String imageUrl;
+  final bool showMenu;
 
   final List<String> menuList = ['Home', 'Logout'];
 
   VendorAppBarDelegate({
     required this.context,
-    required this.id,
-    required this.imageUrl
+    required this.imageUrl,
+    this.showMenu = true
   });
 
   @override
@@ -99,7 +99,7 @@ class VendorAppBarDelegate
   void handleItemClick(BuildContext context, String value) {
     if (value == menuList[0]) {
       Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return HomePage(currentUserId: id,);
+        return HomePage();
       }));
     } else {
       signOut();
@@ -108,14 +108,14 @@ class VendorAppBarDelegate
 
   Widget getAppbar(BuildContext context) {
     return AppBar(
-      actions: [
+      actions: showMenu ? [
         PopupMenuButton<String>(
           onSelected: (value) => handleItemClick(context, value),
           itemBuilder: (BuildContext context) {
             return getItemBuilder();
           },
         ),
-      ],
+      ] : null,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10),

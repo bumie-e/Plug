@@ -6,12 +6,10 @@ class ViewProductAppBarDelegate
     extends SliverPersistentHeaderDelegate with AlertMixins {
 
   final BuildContext context;
-  final String? id;
   final double expandedHeight = 200;
   final String imageUrl;
 
   ViewProductAppBarDelegate({
-    this.id,
     required this.context,
     required this.imageUrl
   });
