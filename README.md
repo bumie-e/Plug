@@ -16,7 +16,7 @@ Plug is your one stop solution. Customers get to see products and services they 
 
 ## Getting Started
 
-A Flutter application was built for this project.  Download the app ![here](https://drive.google.com/uc?export=view&id=1RXsVP2bTfDCIaVdEGV0hilMM-NuuWJl9)
+A Flutter application was built for this project.  Download the app ![here](https://drive.google.com/file/d/1RXsVP2bTfDCIaVdEGV0hilMM-NuuWJl9/view?usp=sharing)
 
 A few resources to get you started if this is your first Flutter project:
 
