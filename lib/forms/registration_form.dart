@@ -144,6 +144,14 @@ class _RegistrationFormState extends State<RegistrationForm> with AlertMixins {
           ElevatedButton(
             onPressed: () async {
               final form = _formKey.currentState!;
+
+              if (_businessLogo == null) {
+                showErrorAlert(context,
+                    errorTitle: 'Required',
+                    errorMessage: 'Upload business logo');
+                return;
+              }
+
               if (validateCategory() && form.validate()) {
                 form.save();
                 createAccount(context);

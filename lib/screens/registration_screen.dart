@@ -15,11 +15,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: const Text('Register'),
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(16.0),
           child: RegistrationForm(),
         ),
       )
