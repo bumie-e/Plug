@@ -6,9 +6,8 @@ import 'package:plug/screens/welcome_screen.dart';
 import 'package:plug/utilities/alert_mixins.dart';
 import 'package:plug/utilities/constants.dart';
 
-class VendorAppBarDelegate
-    extends SliverPersistentHeaderDelegate with AlertMixins {
-
+class VendorAppBarDelegate extends SliverPersistentHeaderDelegate
+    with AlertMixins {
   final BuildContext context;
   final double expandedHeight = 132;
   final String imageUrl;
@@ -16,15 +15,12 @@ class VendorAppBarDelegate
 
   final List<String> menuList = ['Home', 'Logout'];
 
-  VendorAppBarDelegate({
-    required this.context,
-    required this.imageUrl,
-    this.showMenu = true
-  });
+  VendorAppBarDelegate(
+      {required this.context, required this.imageUrl, this.showMenu = true});
 
   @override
-  Widget build(BuildContext context, double shrinkOffset,
-      bool overlapsContent) {
+  Widget build(
+      BuildContext context, double shrinkOffset, bool overlapsContent) {
     const double heightTextField = 111;
     final top = expandedHeight - shrinkOffset - heightTextField / 2;
 
@@ -55,9 +51,8 @@ class VendorAppBarDelegate
     } else {
       return Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          boxShadow: kImageBoxShadow
-        ),
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: kImageBoxShadow),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(50),
           child: Image.network(
@@ -71,7 +66,6 @@ class VendorAppBarDelegate
   }
 
   List<PopupMenuItem<String>> getItemBuilder() {
-
     return menuList.map((String choice) {
       return PopupMenuItem<String>(
         value: choice,
@@ -83,14 +77,22 @@ class VendorAppBarDelegate
   Widget getItem(String choice) {
     late Icon icon;
     if (choice == menuList[0]) {
-      icon = const Icon(Icons.home, color: kPrimaryColor2,);
+      icon = const Icon(
+        Icons.home,
+        color: kPrimaryColor2,
+      );
     } else {
-      icon = const Icon(Icons.logout, color: kPrimaryColor2,);
+      icon = const Icon(
+        Icons.logout,
+        color: kPrimaryColor2,
+      );
     }
     return Row(
       children: [
         icon,
-        const SizedBox(width: 20,),
+        const SizedBox(
+          width: 20,
+        ),
         Text(choice),
       ],
     );
@@ -108,14 +110,16 @@ class VendorAppBarDelegate
 
   Widget getAppbar(BuildContext context) {
     return AppBar(
-      actions: showMenu ? [
-        PopupMenuButton<String>(
-          onSelected: (value) => handleItemClick(context, value),
-          itemBuilder: (BuildContext context) {
-            return getItemBuilder();
-          },
-        ),
-      ] : null,
+      actions: showMenu
+          ? [
+              PopupMenuButton<String>(
+                onSelected: (value) => handleItemClick(context, value),
+                itemBuilder: (BuildContext context) {
+                  return getItemBuilder();
+                },
+              ),
+            ]
+          : null,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(10),

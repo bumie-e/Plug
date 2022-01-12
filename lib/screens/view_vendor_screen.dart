@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:plug/components/empty_catalog_view.dart';
 import 'package:plug/components/product_card.dart';
 import 'package:plug/delegates/vendor_appbar_delegate.dart';
 import 'package:plug/model/product.dart';
 import 'package:plug/model/vendor.dart';
+import 'package:plug/utilities/constants.dart';
 
 class ViewVendorPage extends StatefulWidget {
   final Vendor vendor;
@@ -61,7 +63,26 @@ class _ViewVendorPageState extends State<ViewVendorPage> {
                       _vendor.businessName,
                       style: const TextStyle(fontSize: 36),
                     ),
-                    Text(_vendor.businessEmail),
+                    Text(_vendor.desc),
+                    const Divider(),
+                    Text(_vendor.address),
+                    const Divider(),
+                    Text.rich(
+                      TextSpan(
+                          text: 'Open ',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
+                          children: [
+                            TextSpan(
+                                text: _vendor.openingHours +
+                                    ' - ' +
+                                    _vendor.closingHours,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryColor2))
+                          ]),
+                    ),
                     const SizedBox(
                       height: 15,
                     ),
@@ -97,7 +118,7 @@ class _ViewVendorPageState extends State<ViewVendorPage> {
               }
 
               if (snapshot.data!.size == 0) {
-                return const Text('No available product');
+                return const EmptyCatalogView(showForUser: true,);
               }
 
               return SliverGrid(

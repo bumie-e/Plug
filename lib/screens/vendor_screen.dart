@@ -80,6 +80,25 @@ class _VendorPageState extends State<VendorPage> {
                             style: const TextStyle(fontSize: 36),
                           ),
                           Text(_vendor!.businessEmail),
+                          const Divider(),
+                          Text(_vendor!.desc),
+                          const Divider(),
+                          Text.rich(
+                            TextSpan(
+                                text: 'Open ',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                children: [
+                                  TextSpan(
+                                      text: _vendor!.openingHours +
+                                          ' - ' +
+                                          _vendor!.closingHours,
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: kPrimaryColor2))
+                                ]),
+                          ),
                           const SizedBox(
                             height: 15,
                           ),
@@ -126,8 +145,12 @@ class _VendorPageState extends State<VendorPage> {
                       ),
                       delegate: SliverChildBuilderDelegate(
                         (context, index) {
-                          final product = Product.fromDocument(snapshot.data!.docs[index]);
-                          return ProductCard(product: product, showForUser: false,);
+                          final product =
+                              Product.fromDocument(snapshot.data!.docs[index]);
+                          return ProductCard(
+                            product: product,
+                            showForUser: false,
+                          );
                         },
                         childCount: snapshot.hasData ? snapshot.data!.size : 0,
                       ),
